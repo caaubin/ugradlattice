@@ -20,14 +20,6 @@ Determine the average plaquette
 Set up Wilson-Dirac operator for the quark propagator (under development)
 Extract the pion correlator for a quenched ensemble (under development)
 
-Authors:
-Charles Carver
-Sean Hannaford
-Danielle Moynihan
-George Carey
-Jackson Reynolds
-Alfred Ricker
-Anthony Girardi
-Molly Hayes
-Jan Bierowiec
+Authors (in order of when they contributed):
+Charles Carver, Sean Hannaford, Danielle Moynihan, George Carey, Jackson Reynolds, Alfred Ricker, Anthony Girardi, Molly Hayes, Jan Bierowiec
 
