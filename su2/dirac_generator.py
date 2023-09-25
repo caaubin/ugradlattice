@@ -3,6 +3,7 @@
 import numpy as np
 from scipy import linalg
 from time import time
+# import newsu2 as su2
 import su2
 import sys
 import scipy.sparse
@@ -10,6 +11,16 @@ import scipy.sparse.linalg
 import pickle
 import checks
 import argparse
+
+# caa - made m, r floats
+# m = 1.
+# r = 1.
+# # L = T = 3
+# L = T = 4
+# V = L*L*L*T
+# La = [L,L,L,T]
+# p = [L-1,L-1,L-1,T-1]
+# rowCol = 2 * (4 * (su2.p2i(p,La) + 1))
 
 fmass = open("datMass.dat","w")
 
