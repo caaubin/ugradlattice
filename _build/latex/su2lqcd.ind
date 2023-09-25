@@ -1,0 +1,92 @@
+\begin{sphinxtheindex}
+\let\bigletter\sphinxstyleindexlettergroup
+\let\spxpagem \sphinxstyleindexpagemain
+\let\spxentry \sphinxstyleindexentry
+\let\spxextra \sphinxstyleindexextra
+
+  \bigletter C
+  \item \spxentry{calcPlaq()}\spxextra{in module su2}, \hyperpage{1}
+  \item \spxentry{calcU\_i()}\spxextra{in module su2}, \hyperpage{1}
+  \item \spxentry{calcU\_t()}\spxextra{in module su2}, \hyperpage{1}
+  \item \spxentry{compare()}\spxextra{in module su2}, \hyperpage{1}
+  \item \spxentry{corr()}\spxextra{in module su2}, \hyperpage{1}
+  \item \spxentry{cstart()}\spxextra{in module su2}, \hyperpage{2}
+
+  \indexspace
+  \bigletter D
+  \item \spxentry{dag()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{dagger()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{det()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{dim()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{dirac\_generator}
+    \subitem \spxentry{module}, \hyperpage{9}
+
+  \indexspace
+  \bigletter F
+  \item \spxentry{field\_gen}
+    \subitem \spxentry{module}, \hyperpage{9}
+
+  \indexspace
+  \bigletter G
+  \item \spxentry{gen\_dirac()}\spxextra{in module dirac\_generator}, \hyperpage{9}
+  \item \spxentry{getElement()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{getIndex()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{getMups()}\spxextra{in module su2}, \hyperpage{2}
+  \item \spxentry{getstaple()}\spxextra{in module su2}, \hyperpage{3}
+  \item \spxentry{getTime()}\spxextra{in module su2}, \hyperpage{3}
+
+  \indexspace
+  \bigletter H
+  \item \spxentry{hstart()}\spxextra{in module su2}, \hyperpage{3}
+
+  \indexspace
+  \bigletter I
+  \item \spxentry{i2p()}\spxextra{in module su2}, \hyperpage{3}
+  \item \spxentry{initD()}\spxextra{in module su2}, \hyperpage{4}
+  \item \spxentry{initDeo()}\spxextra{in module su2}, \hyperpage{4}
+  \item \spxentry{invert\_dirac()}\spxextra{in module dirac\_generator}, \hyperpage{9}
+
+  \indexspace
+  \bigletter L
+  \item \spxentry{lattice()}\spxextra{in module field\_gen}, \hyperpage{9}
+  \item \spxentry{link()}\spxextra{in module su2}, \hyperpage{5}
+
+  \indexspace
+  \bigletter M
+  \item \spxentry{masseo()}\spxextra{in module su2}, \hyperpage{5}
+  \item \spxentry{mdowni()}\spxextra{in module su2}, \hyperpage{6}
+  \item \spxentry{module}
+    \subitem \spxentry{dirac\_generator}, \hyperpage{9}
+    \subitem \spxentry{field\_gen}, \hyperpage{9}
+    \subitem \spxentry{su2}, \hyperpage{1}
+  \item \spxentry{mult()}\spxextra{in module su2}, \hyperpage{6}
+  \item \spxentry{mupi()}\spxextra{in module su2}, \hyperpage{6}
+
+  \indexspace
+  \bigletter P
+  \item \spxentry{p2i()}\spxextra{in module su2}, \hyperpage{6}
+  \item \spxentry{parity()}\spxextra{in module su2}, \hyperpage{7}
+  \item \spxentry{plaq()}\spxextra{in module su2}, \hyperpage{7}
+
+  \indexspace
+  \bigletter S
+  \item \spxentry{showMc()}\spxextra{in module su2}, \hyperpage{7}
+  \item \spxentry{showMr()}\spxextra{in module su2}, \hyperpage{7}
+  \item \spxentry{showU()}\spxextra{in module su2}, \hyperpage{7}
+  \item \spxentry{staple()}\spxextra{in module su2}, \hyperpage{8}
+  \item \spxentry{su2}
+    \subitem \spxentry{module}, \hyperpage{1}
+
+  \indexspace
+  \bigletter T
+  \item \spxentry{tr()}\spxextra{in module su2}, \hyperpage{8}
+
+  \indexspace
+  \bigletter U
+  \item \spxentry{update()}\spxextra{in module su2}, \hyperpage{8}
+
+  \indexspace
+  \bigletter V
+  \item \spxentry{vol()}\spxextra{in module su2}, \hyperpage{8}
+
+\end{sphinxtheindex}

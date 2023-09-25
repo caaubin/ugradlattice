@@ -1,0 +1,43 @@
+\indexentry{module@\spxentry{module}!su2@\spxentry{su2}|hyperpage}{1}
+\indexentry{su2@\spxentry{su2}!module@\spxentry{module}|hyperpage}{1}
+\indexentry{calcPlaq() (in module su2)@\spxentry{calcPlaq()}\spxextra{in module su2}|hyperpage}{1}
+\indexentry{calcU\_i() (in module su2)@\spxentry{calcU\_i()}\spxextra{in module su2}|hyperpage}{1}
+\indexentry{calcU\_t() (in module su2)@\spxentry{calcU\_t()}\spxextra{in module su2}|hyperpage}{1}
+\indexentry{compare() (in module su2)@\spxentry{compare()}\spxextra{in module su2}|hyperpage}{1}
+\indexentry{corr() (in module su2)@\spxentry{corr()}\spxextra{in module su2}|hyperpage}{1}
+\indexentry{cstart() (in module su2)@\spxentry{cstart()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{dag() (in module su2)@\spxentry{dag()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{dagger() (in module su2)@\spxentry{dagger()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{det() (in module su2)@\spxentry{det()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{dim() (in module su2)@\spxentry{dim()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{getElement() (in module su2)@\spxentry{getElement()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{getIndex() (in module su2)@\spxentry{getIndex()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{getMups() (in module su2)@\spxentry{getMups()}\spxextra{in module su2}|hyperpage}{2}
+\indexentry{getTime() (in module su2)@\spxentry{getTime()}\spxextra{in module su2}|hyperpage}{3}
+\indexentry{getstaple() (in module su2)@\spxentry{getstaple()}\spxextra{in module su2}|hyperpage}{3}
+\indexentry{hstart() (in module su2)@\spxentry{hstart()}\spxextra{in module su2}|hyperpage}{3}
+\indexentry{i2p() (in module su2)@\spxentry{i2p()}\spxextra{in module su2}|hyperpage}{3}
+\indexentry{initD() (in module su2)@\spxentry{initD()}\spxextra{in module su2}|hyperpage}{4}
+\indexentry{initDeo() (in module su2)@\spxentry{initDeo()}\spxextra{in module su2}|hyperpage}{4}
+\indexentry{link() (in module su2)@\spxentry{link()}\spxextra{in module su2}|hyperpage}{5}
+\indexentry{masseo() (in module su2)@\spxentry{masseo()}\spxextra{in module su2}|hyperpage}{5}
+\indexentry{mdowni() (in module su2)@\spxentry{mdowni()}\spxextra{in module su2}|hyperpage}{6}
+\indexentry{mult() (in module su2)@\spxentry{mult()}\spxextra{in module su2}|hyperpage}{6}
+\indexentry{mupi() (in module su2)@\spxentry{mupi()}\spxextra{in module su2}|hyperpage}{6}
+\indexentry{p2i() (in module su2)@\spxentry{p2i()}\spxextra{in module su2}|hyperpage}{6}
+\indexentry{parity() (in module su2)@\spxentry{parity()}\spxextra{in module su2}|hyperpage}{7}
+\indexentry{plaq() (in module su2)@\spxentry{plaq()}\spxextra{in module su2}|hyperpage}{7}
+\indexentry{showMc() (in module su2)@\spxentry{showMc()}\spxextra{in module su2}|hyperpage}{7}
+\indexentry{showMr() (in module su2)@\spxentry{showMr()}\spxextra{in module su2}|hyperpage}{7}
+\indexentry{showU() (in module su2)@\spxentry{showU()}\spxextra{in module su2}|hyperpage}{7}
+\indexentry{staple() (in module su2)@\spxentry{staple()}\spxextra{in module su2}|hyperpage}{8}
+\indexentry{tr() (in module su2)@\spxentry{tr()}\spxextra{in module su2}|hyperpage}{8}
+\indexentry{update() (in module su2)@\spxentry{update()}\spxextra{in module su2}|hyperpage}{8}
+\indexentry{vol() (in module su2)@\spxentry{vol()}\spxextra{in module su2}|hyperpage}{8}
+\indexentry{module@\spxentry{module}!dirac\_generator@\spxentry{dirac\_generator}|hyperpage}{9}
+\indexentry{dirac\_generator@\spxentry{dirac\_generator}!module@\spxentry{module}|hyperpage}{9}
+\indexentry{gen\_dirac() (in module dirac\_generator)@\spxentry{gen\_dirac()}\spxextra{in module dirac\_generator}|hyperpage}{9}
+\indexentry{invert\_dirac() (in module dirac\_generator)@\spxentry{invert\_dirac()}\spxextra{in module dirac\_generator}|hyperpage}{9}
+\indexentry{module@\spxentry{module}!field\_gen@\spxentry{field\_gen}|hyperpage}{9}
+\indexentry{field\_gen@\spxentry{field\_gen}!module@\spxentry{module}|hyperpage}{9}
+\indexentry{lattice() (in module field\_gen)@\spxentry{lattice()}\spxextra{in module field\_gen}|hyperpage}{9}
