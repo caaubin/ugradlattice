@@ -22,5 +22,12 @@ Extract the pion correlator for a quenched ensemble (under development)
 
 Authors (in order of when they contributed):
 * Charles Carver
-* *Sean Hannaford, Danielle Moynihan, George Carey, Jackson Reynolds, Alfred Ricker, Anthony Girardi, Molly Hayes, Jan Bierowiec
+* Sean Hannaford
+* Danielle Moynihan
+* George Carey
+* Jackson Reynolds
+* Alfred Ricker
+* Anthony Girardi
+* Molly Hayes
+* Jan Bierowiec
 
