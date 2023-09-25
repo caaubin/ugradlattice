@@ -13,7 +13,7 @@ Set up Wilson-Dirac operator for the quark propagator (being tested)
 Extract the pion correlator for a quenched ensemble (being tested)
 Determine n x m Wilson loops to extract the string tension (under development)
 
-SU(2) QCD:
+SU(3) QCD:
 Initialize 2-color quenched lattices (hot or cold start)
 Generate configurations (with metropolis or Cabibbo-heat bath algorithm) with a simple Wilson plaquette action
 Determine the average plaquette
@@ -21,5 +21,6 @@ Set up Wilson-Dirac operator for the quark propagator (under development)
 Extract the pion correlator for a quenched ensemble (under development)
 
 Authors (in order of when they contributed):
-Charles Carver, Sean Hannaford, Danielle Moynihan, George Carey, Jackson Reynolds, Alfred Ricker, Anthony Girardi, Molly Hayes, Jan Bierowiec
+* Charles Carver
+* *Sean Hannaford, Danielle Moynihan, George Carey, Jackson Reynolds, Alfred Ricker, Anthony Girardi, Molly Hayes, Jan Bierowiec
 
