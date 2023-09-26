@@ -1,3 +1,12 @@
+#
+#
+#
+# This file is only in this directory for reference; should be sure
+# that all uses of su2.py refer to the version in the su2/ directory.
+#
+#
+#
+
 import math
 import numpy
 np = numpy
