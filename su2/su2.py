@@ -435,6 +435,68 @@ def plaq(U, U0i, mups, mu, nu):
 
 	return tr(mult(mult(U0,U1),mult(U2,U3)))
 
+
+def Wilsonloop(i, j, U, U0i, mups, mdns, mu, nu):
+        """Compute the Wilson loop	
+	
+	Paramters
+	---------
+	i: int
+                Index corresponding to number of links to be moved in the mu
+                direction
+	j: int
+                Index corresponding to the number of links to be moved in the
+                nu direction
+	U : array_like
+		Array containing the gaugefields for every point on the lattice
+	U0i : int
+		Lattice point index of the starting point on the lattice for 
+		the calculation.
+	mups : array_like
+		The mups array. This array is used as shorthand for taking a 
+		step forwards in the mu'th direction from the U0i'th point
+	mu : int
+		Index corresponding to one of the directions on the lattice: 
+		0:x, 1:y, 2:z, 3:t
+	nu : int
+		Index corresponding to another direction on the lattice: 
+		0:x, 1:y, 2:z, 3:t.
+
+	Returns
+	-------
+	numpy.float64
+		The value of the Wilson loop
+	"""
+        Uij = [U[U0i][mu]]
+        Ui = [U0i]
+        for a in range(1, i):
+                Ui.append(mups[Ui[a-1], mu])
+                Uij.append(U[Ui[a]][mu])
+        Uij.append(U[mups[Ui[-1],mu]][nu])
+        Uj = [mups[Ui[-1],mu]]
+        for b in range(1, j):
+                Uj.append(mups[Uj[b-1], nu])
+                Uij.append(U[Uj[b]][nu])
+        Uij.append(dag(U[mups[mdns[Uj[-1],mu],nu]][mu])) 
+        Uidag = [mups[mdns[Uj[-1],mu],nu]] 
+        for c in range(1, i):
+                Uidag.append(mdns[Uidag[c-1],mu])
+                Uij.append(dag(U[Uidag[c]][mu]))
+        Uij.append(dag(U[mdns[Uidag[-1],nu]][nu]))
+        Ujdag = [mdns[Uidag[-1], nu]]
+        for d in range(1, j):
+                Ujdag.append(mdns[Ujdag[d-1], nu])
+                Uij.append(dag(U[Ujdag[d]][nu]))
+        f = len(Uij)
+
+        print(Uij)
+
+        product = su2.eye 
+        for e in range(0, f): 
+                product = mult(product, Uij[e])
+        return tr(product).real 
+
+
 def link(U,U0i,mups,mu):
 	"""Returns the trace of the link between two points
 
