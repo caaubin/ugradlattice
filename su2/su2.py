@@ -491,7 +491,7 @@ def Wilsonloop(i, j, U, U0i, mups, mdns, mu, nu):
 
         print(Uij)
 
-        product = su2.eye 
+        product = eye4
         for e in range(0, f): 
                 product = mult(product, Uij[e])
         return tr(product).real 
