@@ -390,5 +390,6 @@ if __name__ == '__main__':
 		inverse = invert_dirac(De, Do, Dm, spaceLength, timeLength, m, r)
 
 		if noCorr == False:
-
+			# su2.corr should be updated.
 			corr = corr(inverse,spaceLength,timeLength,beta,m)
+			
