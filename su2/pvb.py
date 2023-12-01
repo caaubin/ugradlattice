@@ -123,8 +123,8 @@ while(beta<=bE):
 						U[i][mu] = U0n
 						count +=1
 
-		# avgPlaquettes[m] = su2.calcPlaq(U,V,D,planes,mups,M,m)
-		avgPlaquettes[m] = su2.calcPlaq(U,V,mups)
+		# avgPlaquettes[m] = su2.calcPlaq(U,La,D,planes,mups,M,m)
+		avgPlaquettes[m] = su2.calcPlaq(U,La,mups)
 		# U_i[m] = su2.calcU_i(U,V,D,mups)
 		# U_t[m] = su2.calcU_t(U,V,D,mups)
 		#print U_i[m], U_t[m]
