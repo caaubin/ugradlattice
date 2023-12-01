@@ -640,11 +640,11 @@ def calcPlaq(U,La,mups):
                         # now in the mu-nu plane
                         Lmu = La[mu]
                         Lnu = La[nu]
-			dirs = [0,1,2,3]
-			dirs.remove(mu)
-			dirs.remove(nu)
-			rho = dirs[0]
-			sigma = dirs[1]
+                        dirs = [0,1,2,3]
+                        dirs.remove(mu)
+                        dirs.remove(nu)
+                        rho = dirs[0]
+                        sigma = dirs[1]
                         for xmu in range(La[mu]-1):
                                 for xnu in range(La[nu]-1):
                                         for xrho in range(La[rho]):
