@@ -640,38 +640,22 @@ def calcPlaq(U,La,mups):
                         # now in the mu-nu plane
                         Lmu = La[mu]
                         Lnu = La[nu]
-                        if mu==0 and nu==1:
-                                rho = 2
-                                sigma = 3
-                        if mu==0 and nu==2:
-                                rho = 1
-                                sigma = 3
-                        if mu==0 and nu==3:
-                                rho = 1
-                                sigma = 2
-                        if mu==1 and nu==2:
-                                rho = 0
-                                sigma = 3
-                        if mu==1 and nu==3:
-                                rho = 0
-                                sigma = 2
-                        if mu==2 and nu==3:
-                                rho = 0
-                                sigma = 1
-                        for a in range(La[mu]-1):
-                                for b in range(La[nu]-1):
-                                        for c in range(La[rho]):
-                                                for d in range(La[sigma]):
-                                                        pp[mu] = a
-                                                        pp[nu] = b
-                                                        pp[rho] = c
-                                                        pp[sigma] = d
+			dirs = [0,1,2,3]
+			dirs.remove(mu)
+			dirs.remove(nu)
+			rho = dirs[0]
+			sigma = dirs[1]
+                        for xmu in range(La[mu]-1):
+                                for xnu in range(La[nu]-1):
+                                        for xrho in range(La[rho]):
+                                                for xsigma in range(La[sigma]):
+                                                        pp[mu] = xmu
+                                                        pp[nu] = xnu
+                                                        pp[rho] = xrho
+                                                        pp[sigma] = xsigma
                                                         i = p2i(pp,La)
                                                         plaquettes.append(0.5*plaq(U,i,mups,mu,nu))
-	print("calcPlaq length", len(plaquettes))
 	avgPlaquettes = np.mean(plaquettes)
-
-	# print(type(avgPlaquettes))
 
 	return avgPlaquettes
 
