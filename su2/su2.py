@@ -609,7 +609,7 @@ def staple(U, U0i, mups, mdns, mu, nu, signnu):
 	return mult(mult(U1,U2),U3)
 
 # 
-def calcPlaq(U,V,mups):
+def calcPlaq(U,La,mups):
 	"""Calculates the average value of the plaquettes about all points 
 	in the lattice
 
@@ -617,9 +617,9 @@ def calcPlaq(U,V,mups):
 	----------
 	U : array_like
 		Array containing the gaugefields for every point on the lattice
-	V : int
-		The volume of the lattice, which is equivalent to the number of
-		points on the lattice
+ 	La : array_like
+ 		Array where each element describes the length of one 
+ 		dimension of the lattice ([x,y,z,t])
 	mups : array_like
 		The mups array. This array is used as shorthand for taking a 
 		step forwards in the mu'th direction from the U0i'th point
@@ -630,18 +630,51 @@ def calcPlaq(U,V,mups):
 		The average value of the plaquettes about the whole lattice	
 
 	"""
-	plaquettes = np.zeros(6*V) # is 6 * V correct? 
+	# plaquettes = np.zeros(6*V) # is 6 * V correct?
+	plaquettes = []
 	j = 0
-	for i in range (V):
-		for mu in range(4):
-			for nu in range(mu+1,4):
-				plaquettes[j] = 1.0 - 0.5*plaq(U,i,mups,mu,nu)
-				j = j + 1
+	V = vol(La)
+	pp = np.array([0,0,0,0],dtype=int)
+	for mu in range(4):
+		for nu in range(mu+1,4):
+                        # now in the mu-nu plane
+                        Lmu = La[mu]
+                        Lnu = La[nu]
+                        if mu==0 and nu==1:
+                                rho = 2
+                                sigma = 3
+                        if mu==0 and nu==2:
+                                rho = 1
+                                sigma = 3
+                        if mu==0 and nu==3:
+                                rho = 1
+                                sigma = 2
+                        if mu==1 and nu==2:
+                                rho = 0
+                                sigma = 3
+                        if mu==1 and nu==3:
+                                rho = 0
+                                sigma = 2
+                        if mu==2 and nu==3:
+                                rho = 0
+                                sigma = 1
+                        for a in range(La[mu]-1):
+                                for b in range(La[nu]-1):
+                                        for c in range(La[rho]):
+                                                for d in range(La[sigma]):
+                                                        pp[mu] = a
+                                                        pp[nu] = b
+                                                        pp[rho] = c
+                                                        pp[sigma] = d
+                                                        i = p2i(pp,La)
+                                                        plaquettes.append(0.5*plaq(U,i,mups,mu,nu))
+	print("calcPlaq length", len(plaquettes))
 	avgPlaquettes = np.mean(plaquettes)
 
 	# print(type(avgPlaquettes))
 
 	return avgPlaquettes
+
 
 def calcU_i(U,V,La,mups):
 	"""Calculates the average values of the spacial links in the 
