@@ -1,4 +1,4 @@
-import math
+ import math
 import numpy
 np = numpy
 
@@ -455,6 +455,9 @@ def Wilsonloop(i, j, U, U0i, mups, mdns, mu, nu):
 	mups : array_like
 		The mups array. This array is used as shorthand for taking a 
 		step forwards in the mu'th direction from the U0i'th point
+  	mdns : array_like
+		The mdns array. This array is used as shorthand for taking a 
+		step backwards in the mu'th direction from the U0i'th point
 	mu : int
 		Index corresponding to one of the directions on the lattice: 
 		0:x, 1:y, 2:z, 3:t
