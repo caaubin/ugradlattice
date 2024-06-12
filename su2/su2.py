@@ -1,4 +1,4 @@
- import math
+import math
 import numpy
 np = numpy
 
@@ -455,9 +455,6 @@ def Wilsonloop(i, j, U, U0i, mups, mdns, mu, nu):
 	mups : array_like
 		The mups array. This array is used as shorthand for taking a 
 		step forwards in the mu'th direction from the U0i'th point
-  	mdns : array_like
-		The mdns array. This array is used as shorthand for taking a 
-		step backwards in the mu'th direction from the U0i'th point
 	mu : int
 		Index corresponding to one of the directions on the lattice: 
 		0:x, 1:y, 2:z, 3:t
@@ -498,61 +495,6 @@ def Wilsonloop(i, j, U, U0i, mups, mdns, mu, nu):
         for e in range(0, f): 
                 product = mult(product, Uij[e])
         return tr(product).real 
-
-
-def avgWilsonLoop(i, j, U, La, mups, mdns):
-    """Compute the Wilson loop	
-	
-	Paramters
-	---------
-	i: int
-                Index corresponding to number of links to be moved in the mu
-                direction
-	j: int
-                Index corresponding to the number of links to be moved in the
-                nu direction
-	U : array_like
-		Array containing the gaugefields for every point on the lattice
-	mups : array_like
-		The mups array. This array is used as shorthand for taking a 
-		step forwards in the mu'th direction from the U0i'th point
-	mdns : array_like
-		The mdns array. This array is used as shorthand for taking a 
-		step backwards in the mu'th direction from the U0i'th point
-	La : array_like
-		Array where each element describes the length of one dimension
-		of the lattice ([x,y,z,t])
-
-	Returns
-	-------
-	numpy.float64
-		The value of the average Wilson loop
-	"""
-    
-    loops = []
-    pp = np.array([0,0,0,0],dtype=int)
-    for mu in range(4):
-	for nu in range(mu+1,4):
-            # now in the mu-nu plane
-            Lmu = La[mu]
-            Lnu = La[nu]
-            dirs = [0,1,2,3]
-            dirs.remove(mu)
-            dirs.remove(nu)
-            rho = dirs[0]
-            sigma = dirs[1]
-            for xsigma in range(La[sigma]):
-                for xrho in range(La[rho]):
-                        for xnu in range(La[nu]-j):
-                                for xmu in range(La[mu]-i):
-                                    pp[mu] = xmu
-                                    pp[nu] = xnu
-                                    pp[rho] = xrho
-                                    pp[sigma] = xsigma
-                                    point = p2i(pp,La)
-                                    loops.append(Wilsonloop(i, j, U, point, mups, mdns, mu, nu)
-    average = np.mean(loops)
-    return average
 
 
 def link(U,U0i,mups,mu):
