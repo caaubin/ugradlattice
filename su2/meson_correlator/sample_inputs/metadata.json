@@ -1,0 +1,15 @@
+{
+  "description": "Simple 4x4x4x4 sample configurations",
+  "configurations": {
+    "identity": {
+      "file": "identity_4x4x4x4.pkl",
+      "description": "Free field theory (all links = identity)",
+      "plaquette": 1.0
+    },
+    "random": {
+      "file": "random_4x4x4x4.pkl",
+      "description": "Random SU(2) links (strong coupling)",
+      "plaquette": 0.5
+    }
+  }
+}
