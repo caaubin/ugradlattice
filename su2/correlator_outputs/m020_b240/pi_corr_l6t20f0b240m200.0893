@@ -1,0 +1,240 @@
+---
+JobID:                        su2_lqcd_fall2025
+date:                         "Thu Oct 30 10:38:58 2025 UTC"
+lattice_size:                 6,6,6,20
+antiquark_type:               wilson
+antiquark_source_type:        point
+antiquark_source_subset:      full
+antiquark_source_t0:          0
+antiquark_source_label:       q
+antiquark_sink_label:         d
+antiquark_mass:               "0.2"
+antiquark_epsilon:            0
+quark_type:                   wilson
+quark_source_type:            point
+quark_source_subset:          full
+quark_source_t0:              0
+quark_source_label:           q
+quark_sink_label:             d
+quark_mass:                   "0.2"
+quark_epsilon:                0
+...
+---
+correlator:                   PION_5
+momentum:                     p000
+spin_taste_sink:              pion5
+correlator_key:               PION_5_q_q_d_d_m0.2_m0.2_p000
+...
+ 0  +1.3788802652642262e-03
+ 1  -7.5078653798571426e-02
+ 2  -6.2856686732030986e-03
+ 3  -7.0026279232433992e-04
+ 4  -2.1145544573271001e-05
+ 5  +3.0750325448094661e-04
+ 6  +5.8718148961170550e-05
+ 7  +3.1524872095619764e-05
+ 8  +9.5953151223427594e-06
+ 9  +1.9651200000167386e-05
+10  +1.0172142313461363e-05
+11  -1.2633855191638409e-06
+12  -3.7032677829802467e-05
+13  -9.0281412392385647e-05
+14  -1.3309374279057022e-04
+15  +4.9659647993764082e-04
+16  -1.8279684216248912e-03
+17  -8.4392332585220466e-03
+18  -1.5728094016050624e-02
+19  -1.0417857644441735e-02
+
+---
+JobID:                        su2_lqcd_fall2025
+date:                         "Thu Oct 30 10:38:58 2025 UTC"
+lattice_size:                 6,6,6,20
+antiquark_type:               wilson
+antiquark_source_type:        point
+antiquark_source_subset:      full
+antiquark_source_t0:          0
+antiquark_source_label:       q
+antiquark_sink_label:         d
+antiquark_mass:               "0.2"
+antiquark_epsilon:            0
+quark_type:                   wilson
+quark_source_type:            point
+quark_source_subset:          full
+quark_source_t0:              0
+quark_source_label:           q
+quark_sink_label:             d
+quark_mass:                   "0.2"
+quark_epsilon:                0
+...
+---
+correlator:                   SIGMA
+momentum:                     p000
+spin_taste_sink:              sigma
+correlator_key:               SIGMA_q_q_d_d_m0.2_m0.2_p000
+...
+ 0  +6.6133303438704849e-01
+ 1  +3.5950378578291323e-02
+ 2  +3.0671953999955710e-02
+ 3  +5.9931015295495837e-03
+ 4  +1.9758633509833778e-03
+ 5  +3.4787710383363084e-04
+ 6  +3.3610373598398136e-04
+ 7  +1.2286697049486078e-05
+ 8  +4.9508229566864126e-06
+ 9  -1.5655117513976206e-06
+10  -4.5133951836656178e-06
+11  -2.6570977948516440e-06
+12  -1.7272222969669082e-05
+13  -6.3528188408652929e-05
+14  -1.3735170221599563e-04
+15  -1.2404380246103957e-04
+16  +3.1822726661126467e-04
+17  -3.9978423025359977e-03
+18  +2.7753696809449717e-02
+19  -8.3168588454361706e-03
+
+---
+JobID:                        su2_lqcd_fall2025
+date:                         "Thu Oct 30 10:38:58 2025 UTC"
+lattice_size:                 6,6,6,20
+antiquark_type:               wilson
+antiquark_source_type:        point
+antiquark_source_subset:      full
+antiquark_source_t0:          0
+antiquark_source_label:       q
+antiquark_sink_label:         d
+antiquark_mass:               "0.2"
+antiquark_epsilon:            0
+quark_type:                   wilson
+quark_source_type:            point
+quark_source_subset:          full
+quark_source_t0:              0
+quark_source_label:           q
+quark_sink_label:             d
+quark_mass:                   "0.2"
+quark_epsilon:                0
+...
+---
+correlator:                   RHO_X
+momentum:                     p000
+spin_taste_sink:              rho_x
+correlator_key:               RHO_X_q_q_d_d_m0.2_m0.2_p000
+...
+ 0  -6.6133303438704860e-01
+ 1  -3.5950378578291323e-02
+ 2  -3.0671953999955714e-02
+ 3  -5.9931015295495837e-03
+ 4  -1.9758633509833774e-03
+ 5  -3.4787710383363095e-04
+ 6  -3.3610373598398136e-04
+ 7  -1.2286697049486078e-05
+ 8  -4.9508229566864202e-06
+ 9  +1.5655117513976206e-06
+10  +4.5133951836656127e-06
+11  +2.6570977948516406e-06
+12  +1.7272222969669082e-05
+13  +6.3528188408652970e-05
+14  +1.3735170221599563e-04
+15  +1.2404380246103957e-04
+16  -3.1822726661126489e-04
+17  +3.9978423025359994e-03
+18  -2.7753696809449724e-02
+19  +8.3168588454361689e-03
+
+---
+JobID:                        su2_lqcd_fall2025
+date:                         "Thu Oct 30 10:38:58 2025 UTC"
+lattice_size:                 6,6,6,20
+antiquark_type:               wilson
+antiquark_source_type:        point
+antiquark_source_subset:      full
+antiquark_source_t0:          0
+antiquark_source_label:       q
+antiquark_sink_label:         d
+antiquark_mass:               "0.2"
+antiquark_epsilon:            0
+quark_type:                   wilson
+quark_source_type:            point
+quark_source_subset:          full
+quark_source_t0:              0
+quark_source_label:           q
+quark_sink_label:             d
+quark_mass:                   "0.2"
+quark_epsilon:                0
+...
+---
+correlator:                   RHO_Y
+momentum:                     p000
+spin_taste_sink:              rho_y
+correlator_key:               RHO_Y_q_q_d_d_m0.2_m0.2_p000
+...
+ 0  -3.5281623116002496e-03
+ 1  -7.8995849579361135e-04
+ 2  -4.8273014025532373e-03
+ 3  -4.0699870224119410e-03
+ 4  -2.1317826058524247e-03
+ 5  -7.5974707370262090e-04
+ 6  -1.6126132371904902e-05
+ 7  +5.5251535614763110e-05
+ 8  -4.0699855103551048e-05
+ 9  +6.1614757742616195e-06
+10  -2.4841535391556830e-06
+11  +1.2192940757252103e-05
+12  -2.5318290656139104e-05
+13  +1.0504581688734472e-04
+14  +1.9588564737684424e-04
+15  +6.9821869071541782e-04
+16  +1.6757789305337043e-03
+17  +1.6908794193938475e-03
+18  -2.5330097500948735e-03
+19  +1.7726698644538463e-02
+
+---
+JobID:                        su2_lqcd_fall2025
+date:                         "Thu Oct 30 10:38:58 2025 UTC"
+lattice_size:                 6,6,6,20
+antiquark_type:               wilson
+antiquark_source_type:        point
+antiquark_source_subset:      full
+antiquark_source_t0:          0
+antiquark_source_label:       q
+antiquark_sink_label:         d
+antiquark_mass:               "0.2"
+antiquark_epsilon:            0
+quark_type:                   wilson
+quark_source_type:            point
+quark_source_subset:          full
+quark_source_t0:              0
+quark_source_label:           q
+quark_sink_label:             d
+quark_mass:                   "0.2"
+quark_epsilon:                0
+...
+---
+correlator:                   RHO_Z
+momentum:                     p000
+spin_taste_sink:              rho_z
+correlator_key:               RHO_Z_q_q_d_d_m0.2_m0.2_p000
+...
+ 0  +5.1204444887101037e-04
+ 1  +1.3348809703481279e-01
+ 2  +2.5965611214103672e-02
+ 3  +9.4434917473498921e-03
+ 4  +1.5572467762994743e-03
+ 5  +4.6162414074332866e-04
+ 6  +2.9133207767453770e-04
+ 7  +1.8774136350052553e-05
+ 8  +1.4837902073814057e-05
+ 9  +7.2224424383139135e-06
+10  +4.2696887093408312e-06
+11  +2.8573977948337212e-07
+12  +8.1754880241721896e-06
+13  +7.2823152101920974e-05
+14  +1.7106950983416836e-04
+15  +6.6449983142675831e-06
+16  +3.2055609290548327e-04
+17  +6.7855880553454795e-03
+18  -1.6988328383732442e-02
+19  +7.1882721710607667e-02
+
