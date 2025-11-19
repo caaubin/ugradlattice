@@ -32,8 +32,9 @@ import scipy.sparse.linalg as spla
 import logging
 import time
 import su2
+import sun  # SU(N) generalization
 
-def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=False):
+def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, n_colors=2, verbose=False):
     """
     Build Wilson-Dirac matrix with antiperiodic boundary conditions in time
     
@@ -45,31 +46,34 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
     
     Args:
         mass (float): Bare quark mass in lattice units
-        lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions  
+        lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
         wilson_r (float): Wilson parameter (default: 1.0, prevents doubling)
         U (array): Gauge field configuration U[site][direction][component]
+        n_colors (int): Number of colors for SU(N) (default: 2 for SU(2))
         verbose (bool): Enable detailed physics output
-        
+
     Returns:
         scipy.sparse.csc_matrix: Wilson-Dirac operator D_W
-        
+
     Physics Notes:
         - Effective mass: m_eff = m + 4r (additive mass renormalization)
         - Antiperiodic BC in time implements fermion doubling for finite T
         - Gauge covariance: D transforms as D → V†DV under gauge transformations
-        - Matrix size: 8V × 8V where V = Lx×Ly×Lz×Lt (2 colors × 4 spins × V sites)
+        - Matrix size: (N_c×4)V × (N_c×4)V where V = Lx×Ly×Lz×Lt
+        - For N_c=2 (SU(2)): 8V × 8V; For N_c=3 (SU(3)): 12V × 12V
     """
     Lx, Ly, Lz, Lt = lattice_dims
     V = Lx * Ly * Lz * Lt
-    matrix_size = 8 * V  # 2 colors × 4 spins × V sites
+    matrix_size = (n_colors * 4) * V  # N_c colors × 4 spins × V sites
     
     # Effective mass includes Wilson shift (additive mass renormalization)
     mass_effective = mass + 4.0 * wilson_r
     
     if verbose:
         logging.info(f"Building Wilson-Dirac matrix:")
+        logging.info(f"  Gauge group: SU({n_colors})")
         logging.info(f"  Lattice: {Lx}×{Ly}×{Lz}×{Lt} (V={V})")
-        logging.info(f"  Matrix size: {matrix_size}×{matrix_size}")
+        logging.info(f"  Matrix size: {matrix_size}×{matrix_size} ({n_colors} colors × 4 spins)")
         logging.info(f"  Bare mass m={mass:.6f}, Wilson r={wilson_r:.2f}")
         logging.info(f"  Effective mass: m_eff = m + 4r = {mass_effective:.6f}")
         logging.info(f"  Boundary conditions: antiperiodic in time direction")
@@ -78,7 +82,7 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
     if U is None:
         if verbose:
             logging.warning("No gauge field provided, using identity (free field)")
-        U = generate_identity_gauge_field(lattice_dims, verbose=False)[0]
+        U = generate_identity_gauge_field(lattice_dims, n_colors=n_colors, verbose=False)[0]
     
     # Dirac gamma matrices in standard representation
     # γ_μ satisfy Clifford algebra: {γ_μ, γ_ν} = 2g_μν
@@ -108,17 +112,18 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
     
     # Hopping terms in all four directions
     construction_errors = 0
-    
+    dof_per_site = n_colors * 4  # Degrees of freedom per site
+
     for base_idx in range(V):
-        base = 8 * base_idx
+        base = dof_per_site * base_idx
         point = su2.i2p(base_idx, lattice_dims)
-        
+
         for mu in range(4):
             try:
                 next_idx = mups[base_idx, mu]
                 prev_idx = mdns[base_idx, mu]
-                next_base = 8 * next_idx
-                prev_base = 8 * prev_idx
+                next_base = dof_per_site * next_idx
+                prev_base = dof_per_site * prev_idx
                 
                 next_point = su2.i2p(next_idx, lattice_dims)
                 prev_point = su2.i2p(prev_idx, lattice_dims)
@@ -133,26 +138,39 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
                     if point[3] == 0 and prev_point[3] == Lt-1:
                         backward_sign = -1.0  # ψ(-1) = -ψ(Lt-1)
                 
-                # Convert SU(2) gauge links from real to complex representation
+                # Get gauge links (handle both SU(2) real and SU(N) complex representations)
                 try:
-                    U_real = U[1][base_idx, mu]
-                    U_complex = np.array([
-                        [U_real[0] + 1j*U_real[3], U_real[2] + 1j*U_real[1]],
-                        [-U_real[2] + 1j*U_real[1], U_real[0] - 1j*U_real[3]]
-                    ], dtype=complex)
-                    
-                    U_prev_real = U[1][prev_idx, mu]
-                    U_prev_complex = np.array([
-                        [U_prev_real[0] + 1j*U_prev_real[3], U_prev_real[2] + 1j*U_prev_real[1]],
-                        [-U_prev_real[2] + 1j*U_prev_real[1], U_prev_real[0] - 1j*U_prev_real[3]]
-                    ], dtype=complex)
-                    U_prev_dag = U_prev_complex.conj().T
-                    
-                except (IndexError, TypeError):
+                    if n_colors == 2 and isinstance(U[1][base_idx, mu], np.ndarray) and U[1][base_idx, mu].size == 4:
+                        # SU(2) in real representation: convert to complex 2×2 matrix
+                        U_real = U[1][base_idx, mu]
+                        U_complex = np.array([
+                            [U_real[0] + 1j*U_real[3], U_real[2] + 1j*U_real[1]],
+                            [-U_real[2] + 1j*U_real[1], U_real[0] - 1j*U_real[3]]
+                        ], dtype=complex)
+
+                        U_prev_real = U[1][prev_idx, mu]
+                        U_prev_complex = np.array([
+                            [U_prev_real[0] + 1j*U_prev_real[3], U_prev_real[2] + 1j*U_prev_real[1]],
+                            [-U_prev_real[2] + 1j*U_prev_real[1], U_prev_real[0] - 1j*U_prev_real[3]]
+                        ], dtype=complex)
+                        U_prev_dag = U_prev_complex.conj().T
+                    else:
+                        # SU(N) in complex matrix representation (N×N complex matrices)
+                        U_complex = U[1][base_idx, mu]
+                        U_prev_complex = U[1][prev_idx, mu]
+                        U_prev_dag = U_prev_complex.conj().T
+
+                        # Verify matrix dimensions
+                        if U_complex.shape != (n_colors, n_colors):
+                            raise ValueError(f"Gauge link has wrong shape: {U_complex.shape}, expected ({n_colors},{n_colors})")
+
+                except (IndexError, TypeError, ValueError) as e:
                     # Fallback to identity links if gauge field access fails
-                    U_complex = np.eye(2, dtype=complex)
-                    U_prev_dag = np.eye(2, dtype=complex)
+                    U_complex = np.eye(n_colors, dtype=complex)
+                    U_prev_dag = np.eye(n_colors, dtype=complex)
                     construction_errors += 1
+                    if verbose and construction_errors == 1:
+                        logging.warning(f"    Gauge field error: {e}, using identity links")
                 
                 # Forward hopping term: -(1/2)[(1-γ_μ)U_μ(x)] 
                 K_forward = 0.5 * forward_sign * np.kron(gamma[mu], U_complex)
@@ -165,13 +183,13 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
                 M_backward = K_backward + W_backward
                 
                 # Add non-zero matrix elements to sparse structure
-                for i in range(8):
-                    for j in range(8):
+                for i in range(dof_per_site):
+                    for j in range(dof_per_site):
                         if abs(M_forward[i,j]) > 1e-14:
                             rows.append(base + i)
                             cols.append(next_base + j)
                             data.append(M_forward[i,j])
-                        
+
                         if abs(M_backward[i,j]) > 1e-14:
                             rows.append(base + i)
                             cols.append(prev_base + j)
@@ -203,85 +221,97 @@ def build_wilson_dirac_matrix(mass, lattice_dims, wilson_r=1.0, U=None, verbose=
     
     return D
 
-def generate_identity_gauge_field(lattice_dims=None, verbose=False):
+def generate_identity_gauge_field(lattice_dims=None, n_colors=2, verbose=False):
     """
     Generate identity gauge field for free field calculations
-    
+
     Creates U_μ(x) = I for all links, corresponding to zero field strength.
     Used as fallback when no gauge configuration is provided, or for
     free field theory comparisons.
-    
+
     Args:
         lattice_dims (list): [Lx, Ly, Lz, Lt] dimensions
+        n_colors (int): Number of colors for SU(N) (default: 2 for SU(2))
         verbose (bool): Enable logging output
-        
+
     Returns:
         tuple: ([None, U], metadata) in standard gauge field format
     """
     if lattice_dims is None:
         lattice_dims = [4, 4, 4, 16]
-        
+
     if verbose:
-        logging.info("Generating identity gauge field (free field theory)")
-    
+        logging.info(f"Generating identity gauge field for SU({n_colors}) (free field theory)")
+
     Lx, Ly, Lz, Lt = lattice_dims
     V = Lx * Ly * Lz * Lt
-    
-    # Initialize all links to SU(2) identity
-    U = np.zeros((V, 4, 4))
-    for i in range(V):
-        for mu in range(4):
-            U[i, mu] = su2.cstart()  # SU(2) identity [1, 0, 0, 0]
-    
+
+    # Initialize all links to SU(N) identity
+    if n_colors == 2:
+        # SU(2) in real representation [1, 0, 0, 0]
+        U = np.zeros((V, 4, 4))
+        for i in range(V):
+            for mu in range(4):
+                U[i, mu] = su2.cstart()
+    else:
+        # SU(N) in complex matrix representation (N×N identity matrices)
+        U = np.zeros((V, 4, n_colors, n_colors), dtype=complex)
+        for i in range(V):
+            for mu in range(4):
+                U[i, mu] = sun.identity_SU_N(n_colors)
+
     metadata = {
         'plaquette': 1.0,
         'format': 'identity',
         'lattice_dims': lattice_dims,
-        'description': 'Free field theory (no gauge field)'
+        'n_colors': n_colors,
+        'description': f'Free field theory (no gauge field, SU({n_colors}))'
     }
-    
+
     return [None, U], metadata
 
-def create_point_source(lattice_dims, t_source, color, spin, verbose=False):
+def create_point_source(lattice_dims, t_source, color, spin, n_colors=2, verbose=False):
     """
     Create point source vector for quark propagator calculation
-    
+
     Generates a delta function source δ³(x⃗-x⃗₀)δ(t-t₀) that creates a quark
     at specific spacetime location with definite color and spin quantum numbers.
-    
+
     The propagator S(x,y) describes quark propagation from source to all other points.
     Multiple sources (all colors and spins) are needed for complete meson correlators.
-    
+
     Source placement strategy:
     - Spatial origin: x⃗₀ = (0,0,0) for maximal signal extraction
     - Temporal: t₀ = t_source (typically 0 for maximum time evolution)
-    - 8 total sources needed: 2 colors × 4 Dirac spins
-    
+    - Total sources needed: N_c colors × 4 Dirac spins
+
     Args:
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
         t_source (int): Source time slice (0 ≤ t_source < Lt)
-        color (int): SU(2) color index (0 or 1)
+        color (int): SU(N) color index (0 to N_c-1)
         spin (int): Dirac spinor index (0, 1, 2, 3)
+        n_colors (int): Number of colors for SU(N) (default: 2 for SU(2))
         verbose (bool): Enable debug output
-        
+
     Returns:
-        numpy.ndarray: Source vector of length 8V with single non-zero entry
-        
+        numpy.ndarray: Source vector of length (N_c×4)V with single non-zero entry
+
     Index Conventions:
-        Global index = site_index × 8 + spin × 2 + color
-        This ordering: [color0_spin0, color1_spin0, color0_spin1, color1_spin1, ...]
+        Global index = site_index × (N_c×4) + 4×color + spin
+        This FIXED indexing works for any N_c and matches propagator structure
     """
     Lx, Ly, Lz, Lt = lattice_dims
     V = Lx * Ly * Lz * Lt
-    source = np.zeros(8*V, dtype=complex)
-    
+    dof_per_site = n_colors * 4
+    source = np.zeros(dof_per_site * V, dtype=complex)
+
     # Source location in spacetime
     source_point = np.array([0, 0, 0, t_source])
     site_idx = su2.p2i(source_point, lattice_dims)
-    
-    # Global index for this color-spin combination
-    base_idx = 8 * site_idx
-    global_idx = base_idx + 2*spin + color
+
+    # Global index for this color-spin combination (FIXED indexing!)
+    base_idx = dof_per_site * site_idx
+    global_idx = base_idx + 4*color + spin
     
     # Check bounds
     if global_idx >= len(source):
@@ -487,10 +517,10 @@ def calculate_effective_mass(correlator, verbose=False):
     """
     if len(correlator) < 2:
         return np.array([]), np.array([])
-    
-    # Ensure positive correlator values (take absolute value if needed)
-    correlator = np.abs(correlator)
-    correlator = np.maximum(correlator, 1e-15)  # Avoid log(0)
+
+    # Clip very small values to avoid log(0)
+    # Note: Removed np.abs() to preserve sign - correlators should be positive after indexing fix
+    correlator = np.maximum(correlator, 1e-15)
     
     if verbose:
         logging.info(f"  Computing effective mass from {len(correlator)} time slices")

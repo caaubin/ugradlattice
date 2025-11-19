@@ -82,31 +82,32 @@ def get_pion_operator(verbose=False):
     
     return pion_info
 
-def calculate_pion_correlator(propagators, lattice_dims, verbose=False):
+def calculate_pion_correlator(propagators, lattice_dims, n_colors=2, verbose=False):
     """
     Calculate pion correlator C_π(t) = Tr[γ₅ S(0,t)]
-    
+
     Constructs the pion two-point correlation function from quark propagators.
     The correlator measures ⟨π(t)π†(0)⟩ and exhibits exponential decay:
-    
+
     C_π(t) ~ A exp(-M_π t) + excited states
-    
+
     The ground state mass M_π is extracted from the asymptotic behavior.
-    
+
     Correlator Construction:
-    1. Sum over all color indices (SU(2): colors 0,1)
-    2. Contract Dirac indices with γ₅ matrix  
+    1. Sum over all color indices (SU(2): colors 0,1; SU(3): colors 0,1,2)
+    2. Contract Dirac indices with γ₅ matrix
     3. Trace over resulting 4×4 matrix at each time slice
     4. Take real part (correlator should be real for γ₅)
-    
+
     Args:
         propagators (list): Quark propagators for all color-spin combinations
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
+        n_colors (int): Number of colors for SU(N) (default: 2)
         verbose (bool): Enable detailed correlator diagnostics
-        
+
     Returns:
         numpy.ndarray: Pion correlator C_π(t) for all time slices
-        
+
     Physics Expectations:
     - Monotonic decay for large t (ground state dominance)
     - Positive values (π† = π for γ₅ operator)
@@ -122,10 +123,10 @@ def calculate_pion_correlator(propagators, lattice_dims, verbose=False):
     if verbose:
         logging.info("  Computing pion correlator C_π(t) = Tr[γ₅ S(0,t)]:")
         logging.info(f"    Time extent: {Lt} slices")
-        logging.info(f"    Propagators: {len(propagators)} (should be 8 for full calculation)")
-        
+        logging.info(f"    Propagators: {len(propagators)} (should be {n_colors*4} for full calculation)")
+
         # Validate propagator set
-        expected_propagators = 8  # 2 colors × 4 spins
+        expected_propagators = n_colors * 4  # n_colors × 4 spins
         if len(propagators) != expected_propagators:
             logging.warning(f"    Expected {expected_propagators} propagators, got {len(propagators)}")
     
@@ -133,25 +134,25 @@ def calculate_pion_correlator(propagators, lattice_dims, verbose=False):
     for t in range(Lt):
         # Source at spatial origin, sink at time t
         sink_point = np.array([0, 0, 0, t])
-        sink_site_idx = su2.p2i(sink_point, lattice_dims) 
-        sink_base_idx = 8 * sink_site_idx
-        
+        sink_site_idx = su2.p2i(sink_point, lattice_dims)
+        sink_base_idx = (n_colors * 4) * sink_site_idx
+
         correlator_sum = 0.0
-        
-        # Sum over all color indices (SU(2) has 2 colors)
-        for color in range(2):
+
+        # Sum over all color indices
+        for color in range(n_colors):
             # Construct 4×4 propagator matrix for this color
             S_matrix = np.zeros((4, 4), dtype=complex)
             
             # Fill matrix elements from propagator solutions
             for source_spin in range(4):
-                source_prop_idx = 2 * source_spin + color
+                source_prop_idx = 4 * color + source_spin
                 
                 if source_prop_idx < len(propagators):
                     source_propagator = propagators[source_prop_idx]
                     
                     for sink_spin in range(4):
-                        sink_global_idx = sink_base_idx + 2 * sink_spin + color
+                        sink_global_idx = sink_base_idx + 4 * color + sink_spin
                         
                         if sink_global_idx < len(source_propagator):
                             S_matrix[sink_spin, source_spin] = source_propagator[sink_global_idx]
@@ -198,25 +199,26 @@ def calculate_pion_correlator(propagators, lattice_dims, verbose=False):
     
     return pion_correlator_real
 
-def calculate_pion_mass(U, mass, lattice_dims, wilson_r=0.5, solver='auto', verbose=False):
+def calculate_pion_mass(U, mass, lattice_dims, wilson_r=0.5, n_colors=2, solver='auto', verbose=False):
     """
     Complete pion mass calculation from gauge configuration
-    
+
     Performs the full lattice QCD workflow to extract the pion mass:
     1. Build Wilson-Dirac matrix D with gauge field U
     2. Solve D·S = δ for all required quark propagators
-    3. Construct pion correlator C_π(t) = Tr[γ₅ S(0,t)]  
+    3. Construct pion correlator C_π(t) = Tr[γ₅ S(0,t)]
     4. Extract effective mass M_eff(t) = ln[C(t)/C(t+1)]
     5. Fit plateau to obtain ground state mass M_π
-    
+
     This is the primary interface for pion mass calculations.
-    
+
     Args:
         U (array): Gauge field configuration from thermal generation
         mass (float): Bare quark mass in lattice units
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
         wilson_r (float): Wilson parameter (default: 0.5)
-        solver (str): Linear solver method ('auto', 'direct', 'gmres', 'lsqr') 
+        n_colors (int): Number of colors for SU(N) (default: 2)
+        solver (str): Linear solver method ('auto', 'direct', 'gmres', 'lsqr')
         verbose (bool): Enable detailed physics diagnostics
         
     Returns:
@@ -258,30 +260,30 @@ def calculate_pion_mass(U, mass, lattice_dims, wilson_r=0.5, solver='auto', verb
     # Step 2: Build Wilson-Dirac matrix
     if verbose:
         logging.info(f"\nStep 1: Building Wilson-Dirac matrix...")
-    
-    D = build_wilson_dirac_matrix(mass, lattice_dims, wilson_r, U, verbose)
-    
+
+    D = build_wilson_dirac_matrix(mass, lattice_dims, wilson_r, U, n_colors, verbose)
+
     if D.nnz == 0:
         logging.error("Wilson-Dirac matrix construction failed!")
         return create_failed_result(mass, lattice_dims, wilson_r, solver)
-    
-    # Step 3: Solve for all required propagators (2 colors × 4 spins = 8 total)
+
+    # Step 3: Solve for all required propagators (n_colors × 4 spins)
     if verbose:
         logging.info(f"\nStep 2: Solving for quark propagators...")
-        logging.info(f"  Computing 8 propagators (2 colors × 4 spins)")
-    
+        logging.info(f"  Computing {n_colors*4} propagators ({n_colors} colors × 4 spins)")
+
     propagators = []
     solve_start_time = time.time()
-    
-    for color in range(2):
+
+    for color in range(n_colors):
         for spin in range(4):
             prop_idx = len(propagators) + 1
-            
+
             if verbose:
-                logging.info(f"    Propagator {prop_idx}/8: color={color}, spin={spin}")
-            
+                logging.info(f"    Propagator {prop_idx}/{n_colors*4}: color={color}, spin={spin}")
+
             # Create point source at t=0
-            source = create_point_source(lattice_dims, t_source=0, color=color, spin=spin, verbose=False)
+            source = create_point_source(lattice_dims, t_source=0, color=color, spin=spin, n_colors=n_colors, verbose=False)
             
             # Solve Dirac equation
             propagator = solve_dirac_system(D, source, method=solver, verbose=False)
@@ -293,20 +295,20 @@ def calculate_pion_mass(U, mass, lattice_dims, wilson_r=0.5, solver='auto', verb
                 logging.warning(f"      Zero propagator for color={color}, spin={spin}")
     
     solve_time = time.time() - solve_start_time
-    
+
     if verbose:
         successful_props = sum(1 for p in propagators if np.linalg.norm(p) > 0)
         logging.info(f"  Propagator calculation completed in {solve_time:.2f}s")
-        logging.info(f"  Successful propagators: {successful_props}/8")
-        
-        if successful_props < 8:
+        logging.info(f"  Successful propagators: {successful_props}/{n_colors*4}")
+
+        if successful_props < n_colors*4:
             logging.warning(f"  Some propagators failed - results may be inaccurate")
-    
+
     # Step 4: Calculate pion correlator
     if verbose:
         logging.info(f"\nStep 3: Computing pion correlator...")
-    
-    correlator = calculate_pion_correlator(propagators, lattice_dims, verbose)
+
+    correlator = calculate_pion_correlator(propagators, lattice_dims, n_colors, verbose)
     
     # Step 5: Extract effective mass
     if verbose:

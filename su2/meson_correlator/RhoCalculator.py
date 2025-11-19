@@ -112,7 +112,7 @@ def get_rho_operator(polarization='average', verbose=False):
     
     return rho_info
 
-def calculate_rho_correlator(propagators, lattice_dims, polarization='average', verbose=False):
+def calculate_rho_correlator(propagators, lattice_dims, polarization='average', n_colors=2, verbose=False):
     """
     Calculate rho correlator C_ρ(t) = Tr[γᵢ S(0,t)]
     
@@ -127,6 +127,7 @@ def calculate_rho_correlator(propagators, lattice_dims, polarization='average', 
     Args:
         propagators (list): Quark propagators for all color-spin combinations
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
+        n_colors (int): Number of colors for SU(N) (default: 2)
         polarization (str): Rho polarization ('x', 'y', 'z', 'average')
         verbose (bool): Enable detailed correlator diagnostics
         
@@ -160,24 +161,24 @@ def calculate_rho_correlator(propagators, lattice_dims, polarization='average', 
         # Sink at spatial origin, time t
         sink_point = np.array([0, 0, 0, t])
         sink_site_idx = su2.p2i(sink_point, lattice_dims)
-        sink_base_idx = 8 * sink_site_idx
+        sink_base_idx = (n_colors * 4) * sink_site_idx
         
         correlator_sum = 0.0
         
-        # Sum over colors (SU(2) has 2 colors)
-        for color in range(2):
+        # Sum over colors 
+        for color in range(n_colors):
             # Build 4×4 propagator matrix for this color  
             S_matrix = np.zeros((4, 4), dtype=complex)
             
             # Fill matrix from propagator solutions
             for source_spin in range(4):
-                source_prop_idx = 2 * source_spin + color
+                source_prop_idx = 4 * color + source_spin
                 
                 if source_prop_idx < len(propagators):
                     source_propagator = propagators[source_prop_idx]
                     
                     for sink_spin in range(4):
-                        sink_global_idx = sink_base_idx + 2 * sink_spin + color
+                        sink_global_idx = sink_base_idx + 4 * color + sink_spin
                         
                         if sink_global_idx < len(source_propagator):
                             S_matrix[sink_spin, source_spin] = source_propagator[sink_global_idx]
@@ -229,7 +230,7 @@ def calculate_rho_correlator(propagators, lattice_dims, polarization='average', 
     
     return rho_correlator_real
 
-def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0.5, solver='auto', verbose=False):
+def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0.5, n_colors=2, solver='auto', verbose=False):
     """
     Complete rho meson mass calculation from gauge configuration
     
@@ -283,7 +284,7 @@ def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0
     if verbose:
         logging.info(f"\nStep 1: Building Wilson-Dirac matrix...")
     
-    D = build_wilson_dirac_matrix(mass, lattice_dims, wilson_r, U, verbose)
+    D = build_wilson_dirac_matrix(mass, lattice_dims, wilson_r, U, n_colors, verbose)
     
     if D.nnz == 0:
         logging.error("Wilson-Dirac matrix construction failed!")
@@ -293,12 +294,12 @@ def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0
     if verbose:
         logging.info(f"\nStep 2: Solving for quark propagators...")
         logging.info(f"  Vector mesons require same propagators as pseudoscalar")
-        logging.info(f"  Computing 8 propagators (2 colors × 4 spins)")
+        logging.info(f"  Computing {n_colors*4} propagators ({n_colors} colors × 4 spins)")
     
     propagators = []
     solve_start_time = time.time()
     
-    for color in range(2):
+    for color in range(n_colors):
         for spin in range(4):
             prop_idx = len(propagators) + 1
             
@@ -306,7 +307,7 @@ def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0
                 logging.info(f"    Propagator {prop_idx}/8: color={color}, spin={spin}")
             
             # Create point source at t=0
-            source = create_point_source(lattice_dims, t_source=0, color=color, spin=spin, verbose=False)
+            source = create_point_source(lattice_dims, t_source=0, color=color, spin=spin, n_colors=n_colors, verbose=False)
             
             # Solve Dirac equation
             propagator = solve_dirac_system(D, source, method=solver, verbose=False)
@@ -322,16 +323,16 @@ def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0
     if verbose:
         successful_props = sum(1 for p in propagators if np.linalg.norm(p) > 0)
         logging.info(f"  Propagator calculation completed in {solve_time:.2f}s")
-        logging.info(f"  Successful propagators: {successful_props}/8")
+        logging.info(f"  Successful propagators: {successful_props}/{n_colors*4}")
         
-        if successful_props < 8:
+        if successful_props < n_colors*4:
             logging.warning(f"  Some propagators failed - results may be inaccurate")
     
     # Step 4: Calculate rho correlator
     if verbose:
         logging.info(f"\nStep 3: Computing rho correlator...")
     
-    correlator = calculate_rho_correlator(propagators, lattice_dims, polarization, verbose)
+    correlator = calculate_rho_correlator(propagators, lattice_dims, polarization, n_colors, verbose)
     
     # Step 5: Extract effective mass
     if verbose:
