@@ -189,19 +189,6 @@ SIGMA:
 - **Memory**: ~1 GB for 6³×20 lattice
 - **Solver**: BiCGSTAB (iterative, faster) or direct (exact, slower)
 
-## Known Issues
-
-### Timeouts
-Some configurations may timeout (>10 min) due to difficult matrix inversions. This is normal - typically get 15-25 successful configs out of 40 attempted.
-
-### Statistical Fluctuations
-Single-configuration results may show:
-- Large errors (20-50%)
-- Unphysical orderings (e.g., M_ρ < M_π)
-- Failed channels (poor signal-to-noise)
-
-**Solution**: Ensemble averaging over multiple configurations.
-
 ## Future Work
 
 - [ ] SU(3) thermal generator implementation
