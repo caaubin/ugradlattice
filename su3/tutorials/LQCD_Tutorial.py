@@ -499,8 +499,6 @@ For more information:
 - Creutz, "Quarks, Gluons, and Lattices" (1983)
 - Rothe, "Lattice Gauge Theories: An Introduction" (2005)
 - DeGrand & DeTar, "Lattice Methods for QCD" (2006)
-
-Questions? Ask your advisor or check the GitHub repository!
 ================================================================================
 """)
 
