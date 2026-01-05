@@ -1,0 +1,133 @@
+================================================================================
+LATTICE QCD CODE - QUICK REFERENCE
+================================================================================
+
+DIRECTORY STRUCTURE:
+--------------------
+production/
+├── generate_ensemble.py      - Generate gauge configuration ensembles
+├── gmor_ensemble_analysis.py - GMOR relation with ensemble averaging
+├── wilson_loops.py           - Wilson loops for string tension
+├── LQCD_Tutorial.py          - Comprehensive learning tutorial
+├── production_configs/       - 10 configs at 4³×8
+├── large_configs/            - 5 configs at 6³×12
+└── test_configs/             - Test configurations
+
+
+QUICK START COMMANDS:
+=====================
+
+1. GENERATE GAUGE CONFIGURATIONS
+   -----------------------------
+   python generate_ensemble.py --beta 6.0 --ls 4 --lt 8 --configs 10
+
+   Options:
+     --beta   : Inverse coupling (default: 6.0)
+     --ls     : Spatial lattice size (default: 6)
+     --lt     : Temporal lattice size (default: 12)
+     --configs: Number of configurations (default: 10)
+     --therm  : Thermalization sweeps (default: 50)
+     --sep    : Separation sweeps between configs (default: 10)
+     --outdir : Output directory (default: configs)
+
+
+2. RUN GMOR ANALYSIS
+   ------------------
+   python gmor_ensemble_analysis.py --config_dir production_configs
+
+   This computes:
+   - Pion masses at multiple quark masses
+   - Ensemble averages with jackknife errors
+   - Critical mass from GMOR fit
+
+
+3. COMPUTE WILSON LOOPS
+   ---------------------
+   python wilson_loops.py --config production_configs/config_b6.00_L4x8_0000.pkl
+
+   Or for ensemble:
+   python wilson_loops.py --config_dir production_configs
+
+   This computes:
+   - Wilson loops W(R,T) for various R and T
+   - Static quark potential V(R)
+   - String tension σ
+
+
+4. RUN TUTORIAL
+   ------------
+   python LQCD_Tutorial.py
+
+   Comprehensive introduction to Lattice QCD concepts.
+
+
+IMPORTANT PHYSICS PARAMETERS:
+=============================
+
+Inverse Coupling β:
+- β = 6/g² where g is the QCD coupling
+- Larger β = weaker coupling = smaller lattice spacing
+- Physical range: β = 5.5 - 7.0
+
+Plaquette Values:
+- β = 5.7: <P> ≈ 0.58 (near deconfinement)
+- β = 6.0: <P> ≈ 0.60 (standard)
+- β = 6.5: <P> ≈ 0.70 (weak coupling)
+
+Critical Mass (quenched Wilson):
+- β = 5.7: m_crit ≈ -0.90
+- β = 6.0: m_crit ≈ -0.80
+- β = 6.2: m_crit ≈ -0.70
+
+Wilson Parameter:
+- r = 0.5 (standard choice)
+- Effective mass: m_eff = m + 4r
+
+
+EXPECTED OUTPUTS:
+=================
+
+1. Thermalization Plot:
+   - Plaquette vs sweep number
+   - Should plateau after 20-50 sweeps
+
+2. GMOR Plot:
+   - m²_π vs m_q (should be linear)
+   - Extrapolation gives m_crit
+
+3. Wilson Loop Plot:
+   - W(R,T) vs R for various T
+   - V(R) vs R with linear fit
+
+
+TYPICAL TIMINGS (approximate):
+==============================
+- 4³×4 lattice: ~1 sec/sweep
+- 4³×8 lattice: ~2 sec/sweep
+- 6³×12 lattice: ~10 sec/sweep
+- 8³×16 lattice: ~30 sec/sweep
+
+Propagator inversions:
+- 4³×8 lattice: ~5 sec each
+- 6³×12 lattice: ~30 sec each
+
+
+TROUBLESHOOTING:
+================
+
+1. "Module not found" errors:
+   - Make sure you're in the right directory
+   - Check sys.path includes Fall_2025/
+
+2. Memory errors:
+   - Reduce lattice size
+   - Use fewer configurations
+
+3. Slow performance:
+   - Reduce lattice size for testing
+   - Run overnight for production
+
+4. Poor GMOR fit:
+   - Need more statistics (more configs)
+   - Use larger lattice (finite-size effects)
+   - Try different quark mass range
