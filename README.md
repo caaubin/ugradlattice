@@ -29,3 +29,4 @@ Authors (in order of when they contributed):
 * Anthony Girardi
 * Molly Hayes
 * Jan Bierowiec
+* Zeke Mohammed
