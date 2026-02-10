@@ -1,0 +1,27 @@
+2026-02-09 22:00:19,464 [INFO] ============================================================
+2026-02-09 22:00:19,465 [INFO] LATTICE QCD PROPAGATOR CALCULATION
+2026-02-09 22:00:19,465 [INFO] Using modular backend for enhanced performance
+2026-02-09 22:00:19,466 [INFO] ============================================================
+2026-02-09 22:00:19,466 [INFO] Run type: spectrum
+2026-02-09 22:00:19,467 [INFO] Output directory: results_spectrum_20260209_220019
+2026-02-09 22:00:19,467 [INFO] 
+2026-02-09 22:00:19,501 [INFO] Auto-detected lattice dimensions: [8, 8, 8, 20]
+2026-02-09 22:00:56,840 [INFO] Result: M_pion = 0.030435 ± 0.002976
+2026-02-09 22:00:56,848 [INFO] Result: M_sigma = 0.277343 ± 0.027734
+2026-02-09 22:00:56,849 [INFO] Result: M_rho_x = 0.791060 ± 0.042617
+2026-02-09 22:00:56,849 [INFO] Result: M_rho_y = 0.793307 ± 0.040740
+2026-02-09 22:00:56,850 [INFO] Result: M_rho_z = 0.137209 ± 0.009876
+2026-02-09 22:00:56,850 [INFO] 
+Calculation time: 37.38 seconds
+2026-02-09 22:00:56,856 [INFO] Results saved: results_spectrum_20260209_220019/data/results_20260209_220056.txt
+2026-02-09 22:00:56,868 [INFO] Saved correlator: results_spectrum_20260209_220019/correlators/pion_correlator_20260209_220056.dat
+2026-02-09 22:00:56,873 [INFO] Saved correlator: results_spectrum_20260209_220019/correlators/sigma_correlator_20260209_220056.dat
+2026-02-09 22:00:56,878 [INFO] Saved correlator: results_spectrum_20260209_220019/correlators/rho_x_correlator_20260209_220056.dat
+2026-02-09 22:00:56,887 [INFO] Saved correlator: results_spectrum_20260209_220019/correlators/rho_y_correlator_20260209_220056.dat
+2026-02-09 22:00:56,897 [INFO] Saved correlator: results_spectrum_20260209_220019/correlators/rho_z_correlator_20260209_220056.dat
+2026-02-09 22:00:56,898 [INFO] 
+============================================================
+2026-02-09 22:00:56,898 [INFO] CALCULATION COMPLETE
+2026-02-09 22:00:56,898 [INFO] ============================================================
+2026-02-09 22:00:56,898 [INFO] Results saved in: results_spectrum_20260209_220019
+2026-02-09 22:00:56,898 [INFO] ============================================================

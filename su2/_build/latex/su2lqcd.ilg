@@ -1,0 +1,7 @@
+This is makeindex, version 2.15 [TeX Live 2016] (kpathsea + Thai support).
+Scanning style file ./python.ist.......done (7 attributes redefined, 0 ignored).
+Scanning input file su2lqcd.idx....done (43 entries accepted, 0 rejected).
+Sorting entries....done (237 comparisons).
+Generating output file su2lqcd.ind....done (92 lines written, 0 warnings).
+Output written in su2lqcd.ind.
+Transcript written in su2lqcd.ilg.

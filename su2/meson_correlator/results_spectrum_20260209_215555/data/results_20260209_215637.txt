@@ -1,0 +1,75 @@
+LATTICE QCD MESON MASS RESULTS
+==================================================
+Generated: 2026-02-09 21:56:37.281426
+Using modular backend for improved performance
+
+Result 1: PION
+------------------------------
+Channel: pion (0-+)
+Mass: 0.672144 ± 0.045045
+Chi²/dof: 59.1137
+Fit range: t = 4 to 15
+
+Parameters:
+  Quark mass: 0.200000
+  Wilson r: 0.500
+  Effective mass: 2.200000
+  Lattice: [8, 8, 8, 20]
+  Solver: auto
+
+Result 2: SIGMA
+------------------------------
+Channel: sigma (0++)
+Mass: 0.891993 ± 0.052761
+Chi²/dof: 38.0591
+Fit range: t = 6 to 18
+
+Parameters:
+  Quark mass: 0.200000
+  Wilson r: 0.500
+  Effective mass: 2.200000
+  Lattice: [8, 8, 8, 20]
+  Solver: auto
+
+Result 3: RHO_X
+------------------------------
+Channel: rho_x (1--)
+Mass: 0.674438 ± 0.039070
+Chi²/dof: 34.0029
+Fit range: t = 4 to 7
+
+Parameters:
+  Quark mass: 0.200000
+  Wilson r: 0.500
+  Effective mass: 2.200000
+  Lattice: [8, 8, 8, 20]
+  Solver: auto
+
+Result 4: RHO_Y
+------------------------------
+Channel: rho_y (1--)
+Mass: 1.318740 ± 0.076402
+Chi²/dof: 1.0360
+Fit range: t = 7 to 10
+
+Parameters:
+  Quark mass: 0.200000
+  Wilson r: 0.500
+  Effective mass: 2.200000
+  Lattice: [8, 8, 8, 20]
+  Solver: auto
+
+Result 5: RHO_Z
+------------------------------
+Channel: rho_z (1--)
+Mass: 1.506100 ± 0.106538
+Chi²/dof: 0.1539
+Fit range: t = 1 to 6
+
+Parameters:
+  Quark mass: 0.200000
+  Wilson r: 0.500
+  Effective mass: 2.200000
+  Lattice: [8, 8, 8, 20]
+  Solver: auto
+

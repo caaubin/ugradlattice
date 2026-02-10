@@ -1,0 +1,1051 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SU(2) LQCD’s documentation &#8212; SU(2) LQCD  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-su2">
+<span id="su-2-lqcd-s-documentation"></span><h1>SU(2) LQCD’s documentation<a class="headerlink" href="#module-su2" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="su2.calcPlaq">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">calcPlaq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">V</span></em>, <em class="sig-param"><span class="n">mups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.calcPlaq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the average value of the plaquettes about all points
+in the lattice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>V</strong> (<em>int</em>) – The volume of the lattice, which is equivalent to the number of
+points on the lattice</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The average value of the plaquettes about the whole lattice</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.calcU_i">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">calcU_i</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">V</span></em>, <em class="sig-param"><span class="n">La</span></em>, <em class="sig-param"><span class="n">mups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.calcU_i" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the average values of the spacial links in the
+lattice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>V</strong> (<em>int</em>) – The volume of the lattice, which is equivalent to the number of
+points on the lattice</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The average value of the spacial links in the lattice</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.calcU_t">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">calcU_t</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">V</span></em>, <em class="sig-param"><span class="n">mups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.calcU_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the average values of the time links in the lattice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>V</strong> (<em>int</em>) – The volume of the lattice, which is equivalent to the number of
+points on the lattice</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The average value of the time links in the lattice</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.compare">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">compare</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mat1</span></em>, <em class="sig-param"><span class="n">mat2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.compare" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints any dissimilar elements between two matrices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mat1</strong> (<em>array_like</em>) – A matrix</p></li>
+<li><p><strong>mat2</strong> (<em>array_like</em>) – A matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Compares corresponding elements between two matrices and prints
+any values which are not exactly equal.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>void</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.corr">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">corr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.corr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes out the correlator to a file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>array_like</em>) – The inverse</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.cstart">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">cstart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#su2.cstart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns 2x2 identity matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>2x2 Identity matrix written in the convention of a real-valued
+SU(2) matrix</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.dag">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">dag</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.dag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the hermitian conjugate of a matrix writen in the
+real-valued representation of an SU(2) matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>u</strong> (<em>array_like</em>) – Real-valued matrix representaion of an SU(2) matrix</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hermitian conjugate of the input written as a real-valued
+representation of an SU(2) matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.dagger">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">dagger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">u</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.dagger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gives the hermitian conjugate of a matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>u</strong> (<em>array_like</em>) – Matrix representing a gauge field</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hermitian conjugate of the input</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.det">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">det</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">UU</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.det" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the determinant of the matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>UU</strong> (<em>array_like</em>) – SU(2) matrix writen in real-valued form</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Determinant of the input matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.dim">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">dim</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the dimensions of the array in a dictionary</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one
+dimension of the lattice ([x,y,z,t])</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary containing the lattice dimensions</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.getElement">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">getElement</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">D</span></em>, <em class="sig-param"><span class="n">La</span></em>, <em class="sig-param"><span class="n">point_1</span></em>, <em class="sig-param"><span class="n">point_2</span></em>, <em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">alpha</span></em>, <em class="sig-param"><span class="n">b</span></em>, <em class="sig-param"><span class="n">beta</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.getElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>input the matrix, the dimensions of the latice, the initial and final point of the particle,
+and the other spin and field stuff, and get the associated element of the matrix
+point_1, point_2 range from 0 to [max index] - 1
+a, b range from 0 to 1
+alpha, beta range from 0 to 3</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.getIndex">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">getIndex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">La</span></em>, <em class="sig-param"><span class="n">point_1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.getIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the index of the full Dirac matrix which corresponds to
+the element associated with a particular point on the lattice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one
+dimension of the lattice ([x,y,z,t])</p></li>
+<li><p><strong>point</strong> (<em>array_like</em>) – Array containing the spacetime coordinates of a position on
+the lattice written as [x,y,z,t]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This function operates very similarly to p2i</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.getMups">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">getMups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">V</span></em>, <em class="sig-param"><span class="n">numdim</span></em>, <em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.getMups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the mups array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>V</strong> (<em>int</em>) – The volume of the lattice, which is equivalent to the number of
+points on the lattice</p></li>
+<li><p><strong>numdim</strong> (<em>int</em>) – Number of dimensions of the lattice</p></li>
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one
+dimension of the lattice ([x,y,z,t])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The output is a V x numdim matrix array which can be used as
+shorthand when calling elements from the gaugefield array.
+Specifically, this array can be used in functions which
+involve stepping up or down between points on the lattice.
+In the output matrix array, the ith array corresponds to the
+ith point on the lattice, and the elements of that array are
+the indexes of the adjacent points. For example, the [i,mu]
+element in the output array is the index of point on the
+lattice corresponding to the point one step in the mu’th
+direction.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.getTime">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">getTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">a</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.getTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the elalpsed time in hr:min:sec format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> (<em>float</em>) – The current time given by the time() function in the standard
+time module</p></li>
+<li><p><strong>b</strong> (<em>float</em>) – The current time given by the time() function in the standard
+time module</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Calculates the time elapsed between when a and b were
+initialized and print the elapsed time in hr:min:sec format.
+Can be used to find the time elapsed by a section of code if a
+is initialized before said section and b is intialized
+immediately after</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.getstaple">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">getstaple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">U0i</span></em>, <em class="sig-param"><span class="n">mups</span></em>, <em class="sig-param"><span class="n">mdns</span></em>, <em class="sig-param"><span class="n">mu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.getstaple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the staple</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>U0i</strong> (<em>int</em>) – Lattice point index of the starting point on the lattice for
+the calculation.</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+<li><p><strong>mdns</strong> (<em>array_like</em>) – The mdns array. This array is used as shorthand for taking a
+step backwards in the mu’th direction from the U0i’th point</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the staple starting at the U0i’th point</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.hstart">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">hstart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#su2.hstart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a random complex 2x2 matrix written in real-valued form</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>2x2 matrix written in real-valued form. Elements are assigned
+to random values between -1 and 1</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.i2p">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">i2p</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ind</span></em>, <em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.i2p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the index of a point on the lattice and returns the
+spacetime position of that point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind</strong> (<em>int</em>) – As the elements of the Dirac matrix are themselves 8x8
+matrices, i is the index of the first row/colum of the elements
+in the Dirac matrix which pertain to a particular spacetime
+position</p></li>
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one dimension
+of the lattice ([x,y,z,t])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The position on the lattice which corresponds to the input
+index. The position is written as [x,y,z,t]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.initD">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">initD</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">dat</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">pbc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.initD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the data needed to make an 8x8 sparse submatrix
+containing the kinetic terms (including time) of the dirac matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<em>list</em>) – list containing row indices for the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>col</strong> (<em>list</em>) – list containing column indices for the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>dat</strong> (<em>list</em>) – list containing the values of the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – the value of the wilson term</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – row index of the Dirac matrix which, when used in conjunction
+with n, will locate the first diagonal element of the submatrix</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – column index of the Dirac matrix which, when used in
+conjunction with m, will locate the first diagonal element of
+the submatrix</p></li>
+<li><p><strong>pbc</strong> (<em>bool</em>) – boolean variable indicating whethere the particle has triggered
+periodic boundary conditions. Is true when the particle hit a
+boundary and had to be moved to the opposite end of the
+lattice, and false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Appends the row, col, and dat lists with the data needed to
+construct an 8x8 submatrix which will be part of the larger
+dirac matrix. The submatrix is the kronecker product of the
+gamma matrix corresponding to the mu direction and the
+gaugefield connecting the lattice points given by
+su2.i2p(m//8,La) and su2.i2p(n//8,La). Returns error codes if
+an error occurs or 0 otherwise, and the number of elements
+initialized.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int, int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.initDeo">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">initDeo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">col</span></em>, <em class="sig-param"><span class="n">dat</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">pbc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.initDeo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the data needed to make an 8x8 sparse, even/odd
+precoditioned submatrix containing the kinetic terms (including
+time) of the dirac matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<em>list</em>) – list containing row indices for the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>col</strong> (<em>list</em>) – list containing column indices for the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>dat</strong> (<em>list</em>) – list containing the values of the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – the value of the wilson term</p></li>
+<li><p><strong>m</strong> (<em>int</em>) – row index of the Dirac matrix which, when used in conjunction
+with n, will locate the first diagonal element of the submatrix</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – column index of the Dirac matrix which, when used in
+conjunction with m, will locate the first diagonal element of
+the submatrix</p></li>
+<li><p><strong>pbc</strong> (<em>bool</em>) – boolean variable indicating whethere the particle has triggered
+periodic boundary conditions. Is true when the particle hit a
+boundary and had to be moved to the opposite end of the
+lattice, and false otherwise.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This function takes advantage of even/odd preconditioning.
+Since the Dirac matrix can be broken into mass terms and terms
+which either connect “even” points with “odd” points or vice
+versa, the Dirac matrix can be formulated as three smaller
+matrices which are half the order of the full matrix. So, this
+fucntion appends the row, col, and dat lists with the data
+needed to construct an 8x8 submatrix which will be part of the
+larger even-odd or odd-even precoditioned matrix. The submatrix
+is the kronecker product of the gamma matrix corresponding to
+the mu direction and the gaugefield connecting the lattice
+points given by su2.i2p(m//8,La) and su2.i2p(n//8,La). Returns
+error codes if an error occurs or 0 otherwise, and the number
+of elements initialized.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int, int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.link">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">link</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">U0i</span></em>, <em class="sig-param"><span class="n">mups</span></em>, <em class="sig-param"><span class="n">mu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the trace of the link between two points</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>U0i</strong> (<em>int</em>) – Lattice point index of the starting point on the lattice for
+the calculation.</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The value of the link between the point at U0i and the point
+one step in the mu’th direction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.masseo">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">masseo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">row</span></em>, <em class="sig-param"><span class="n">dat</span></em>, <em class="sig-param"><span class="n">i</span></em>, <em class="sig-param"><span class="n">j</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">r</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.masseo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates the data needed to make an 8x8 sparse submatrix
+containing the mass terms of the dirac matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>row</strong> (<em>list</em>) – list containing row indices for the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>dat</strong> (<em>list</em>) – list containing the values of the non-zero elements of the
+dirac matrix. Is used to generate the dirac matrix as a sparse
+matrix.</p></li>
+<li><p><strong>i</strong> (<em>int</em>) – row index of the Dirac matrix which, when used in conjunction
+with j, will locate the first diagonal element of the submatrix</p></li>
+<li><p><strong>j</strong> (<em>int</em>) – column index of the Dirac matrix which, when used in
+conjunction with i, will locate the first diagonal element of
+the submatrix</p></li>
+<li><p><strong>m</strong> (<em>double</em>) – the mass of the particle</p></li>
+<li><p><strong>r</strong> (<em>double</em>) – the value of the wilson term</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Appends the row and dat lists with the data needed to construct
+an 8x8 submatrix which will be part of the larger dirac matrix.
+All mass terms should be along the diagonal of each submatrix
+as well as the larger dirac matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>void</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.mdowni">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">mdowni</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ind</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.mdowni" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decrement a position in the mu’th direction, looping if needed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind</strong> (<em>int</em>) – As the elements of the Dirac matrix are themselves 8x8
+matrices, i is the index of the first row/colum of the elements
+in the Dirac matrix which pertain to a particular spacetime
+position</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one dimension
+of the lattice ([x,y,z,t])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function deccrements a step in the mu’th direction, if the
+boundary is met it then loops around to the other side of the
+lattice. The return value is the index of the new point on the
+lattice.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.int64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.mult">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">mult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U1</span></em>, <em class="sig-param"><span class="n">U2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.mult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiplies two SU(2) matrices written in the real-valued
+representation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U1</strong> (<em>array_like</em>) – Real-valued matrix representaion of an SU(2) gauge field</p></li>
+<li><p><strong>U2</strong> (<em>array_like</em>) – Real-valued matrix representaion of an SU(2) gauge field</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The product of the two input arrays written as a real-valued
+matrix representaion of an SU(2) matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.mupi">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">mupi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ind</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.mupi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment a position in the mu’th direction, looping if needed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ind</strong> (<em>int</em>) – the index of a point on the lattice</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one dimension
+of the lattice ([x,y,z,t])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function increments a step in the mu’th direction, if the
+boundary is met it then loops around to the other side of the
+lattice. The return value is the index of the new point on the
+lattice.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.int64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.p2i">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">p2i</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">point</span></em>, <em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.p2i" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the array describing a point in the spacetime lattice
+([x,y,z,t] notation) and returns the index of that point</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>point</strong> (<em>array_like</em>) – Array containing the spacetime coordinates of a position on
+the lattice written as [x,y,z,t]</p></li>
+<li><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one
+dimension of the lattice ([x,y,z,t])</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The index of the input point</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.parity">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">parity</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.parity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the parity of a point on the lattice</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pt</strong> (<em>array_like</em>) – Point on the lattice, written as [x,y,z,t]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns 1 if the point has even parity, and 0 if it has odd
+parity</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.int64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.plaq">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">plaq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">U0i</span></em>, <em class="sig-param"><span class="n">mups</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">nu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.plaq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the plaquette</p>
+<dl class="simple">
+<dt>U<span class="classifier">array_like</span></dt><dd><p>Array containing the gaugefields for every point on the lattice</p>
+</dd>
+<dt>U0i<span class="classifier">int</span></dt><dd><p>Lattice point index of the starting point on the lattice for
+the calculation.</p>
+</dd>
+<dt>mups<span class="classifier">array_like</span></dt><dd><p>The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p>
+</dd>
+<dt>mu<span class="classifier">int</span></dt><dd><p>Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p>
+</dd>
+<dt>nu<span class="classifier">int</span></dt><dd><p>Index corresponding to another direction on the lattice:
+0:x, 1:y, 2:z, 3:t.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The value of the plaquette</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.showMc">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">showMc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mat</span></em>, <em class="sig-param"><span class="n">rc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.showMc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the submatrices along the leftmost column of the full
+Dirac matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mat</strong> (<em>array_like</em>) – The Dirac matrix</p></li>
+<li><p><strong>rc</strong> (<em>int</em>) – The order of the Dirac matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Prints 8x8 submatrices that exist along the leftmost section of
+the Dirac matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>void</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.showMr">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">showMr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mat</span></em>, <em class="sig-param"><span class="n">rc</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.showMr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints the submatrices along the top row of the full Dirac
+matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mat</strong> (<em>array_like</em>) – The Dirac matrix</p></li>
+<li><p><strong>rc</strong> (<em>int</em>) – The order of the Dirac matrix</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Prints 8x8 submatrices that exist along the top of the Dirac
+matrix.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>void</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.showU">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">showU</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">i</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.showU" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the gauge field at the i’th lattice point and in the
+mu’th direction written as matrix writen in the real-valued
+representation of an SU(2) matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Real-valued matrix representaion of an SU(2) gauge field</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>i</strong> (<em>int</em>) – row index of the Dirac matrix which, when used in conjunction
+with j, will locate the first diagonal element of the submatrix</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The gauge field which corresponds to the mu’th direction on the
+i’th point on the lattice. It is a 2x2 matrix written in the
+real-valued representation</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.staple">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">staple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">U0i</span></em>, <em class="sig-param"><span class="n">mups</span></em>, <em class="sig-param"><span class="n">mdns</span></em>, <em class="sig-param"><span class="n">mu</span></em>, <em class="sig-param"><span class="n">nu</span></em>, <em class="sig-param"><span class="n">signnu</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.staple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the staple in the mu-nu plane</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> (<em>array_like</em>) – Array containing the gaugefields for every point on the lattice</p></li>
+<li><p><strong>U0i</strong> (<em>int</em>) – Lattice point index of the starting point on the lattice for
+the calculation.</p></li>
+<li><p><strong>mups</strong> (<em>array_like</em>) – The mups array. This array is used as shorthand for taking a
+step forwards in the mu’th direction from the U0i’th point</p></li>
+<li><p><strong>mdns</strong> (<em>array_like</em>) – The mdns array. This array is used as shorthand for taking a
+step backwards in the mu’th direction from the U0i’th point</p></li>
+<li><p><strong>mu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t</p></li>
+<li><p><strong>nu</strong> (<em>int</em>) – Index corresponding to one of the directions on the lattice:
+0:x, 1:y, 2:z, 3:t. Must be different than mu</p></li>
+<li><p><strong>signnu</strong> (<em>int</em>) – Equal to either 1 or -1. Dictates if the staple is calulcuted
+forwards (+1) or in reverse (-1).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the staple starting at the U0i’th point</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.tr">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">tr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">UU</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.tr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the trace of a matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>UU</strong> (<em>array_like</em>) – SU(2) matrix writen in real-valued form</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The trace of the input matrix</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.float64</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.update">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">UU</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a random SU(2) matrix near the identity</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>UU</strong> (<em>array_like</em>) – SU(2) matrix written in real-valued form</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Updated version of the input matrix with a slight random
+modification. Matrix is near the identity and written in
+real-valued form</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="su2.vol">
+<code class="sig-prename descclassname">su2.</code><code class="sig-name descname">vol</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">La</span></em><span class="sig-paren">)</span><a class="headerlink" href="#su2.vol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes array of dimensions as input, returns volume</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>La</strong> (<em>array_like</em>) – Array where each element describes the length of one
+dimension of the lattice ([x,y,z,t])</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The volume of the lattice, which is equivalent to the number of
+points on the lattice</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-dirac_generator"></span><dl class="py function">
+<dt id="dirac_generator.gen_dirac">
+<code class="sig-prename descclassname">dirac_generator.</code><code class="sig-name descname">gen_dirac</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">U</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">spaceLength</span></em>, <em class="sig-param"><span class="n">timeLength</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dirac_generator.gen_dirac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a set of preconditioned matrices which comprise a
+Dirac matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>De</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements which connect
+an “even” point on the lattice with an “odd” point. Is half the
+order of the full Dirac matrix</p></li>
+<li><p><strong>Do</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements which connect
+an “odd” point on the lattice with an “even” point. All
+elements are kinetic terms and De is half the order of the full
+Dirac matrix</p></li>
+<li><p><strong>Dm</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements containing the
+mass terms. Is half the order of the full Dirac matrix.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dirac_generator.invert_dirac">
+<code class="sig-prename descclassname">dirac_generator.</code><code class="sig-name descname">invert_dirac</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">De</span></em>, <em class="sig-param"><span class="n">Do</span></em>, <em class="sig-param"><span class="n">Dm</span></em>, <em class="sig-param"><span class="n">sizeofinverse</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="headerlink" href="#dirac_generator.invert_dirac" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in the even/odd preconditioned Dirac matrices and finds
+the inverse of the full Dirac matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>De</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements which connect
+an “even” point on the lattice with an “odd” point. Is half the
+order of the full Dirac matrix</p></li>
+<li><p><strong>Do</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements which connect
+an “odd” point on the lattice with an “even” point. All
+elements are kinetic terms and De is half the order of the full
+Dirac matrix</p></li>
+<li><p><strong>Dm</strong> (<em>array_like</em>) – A preconditioned matrix containing the elements containing the
+mass terms. Is half the order of the full Dirac matrix.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The inverse of the Dirac matrix. By default only the first 8
+rows of the inverse are calculated.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><p><strong>sizeofinverse</strong> (<em>int</em>) – The number of rows of the inverse that will be calculated.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-field_gen"></span><dl class="py function">
+<dt id="field_gen.lattice">
+<code class="sig-prename descclassname">field_gen.</code><code class="sig-name descname">lattice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bS</span></em>, <em class="sig-param"><span class="n">spaceLength</span></em>, <em class="sig-param"><span class="n">timeLength</span></em>, <em class="sig-param"><span class="n">M</span><span class="o">=</span><span class="default_value">1000</span></em>, <em class="sig-param"><span class="n">Mlink</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">Msep</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">Mtherm</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="n">bRange</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">bI</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">hotStart</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">makePlot</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#field_gen.lattice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generates a lattice or set of lattices utilizing SU(2) gauge fields</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bS</strong> (<em>float</em>) – The value of beta that will be used to generate a lattice. If
+a set of lattices generated over a range of betas is desired,
+then bS is the first value of beta evaluated over the range.</p></li>
+<li><p><strong>spaceLength</strong> (<em>int</em>) – The length of the three spacial dimensions of the lattice</p></li>
+<li><p><strong>timeLength</strong> (<em>int</em>) – The length of the time dimension of the lattice</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>th</strong> – Numpy array where the fist element is the average value of
+the plaquettes of the lattice, and the second element is the
+lattice. While the function only returns the final update of
+the lattice, the lattice is written out into the configs
+directory each time a measurement is made.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+<dt class="field-even">Other Parameters</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>M</strong> (<em>int</em>) – The number of times the lattice is updated. An update of the
+lattice is performed by iterating through each lattice point
+and each link extending from that point and updating those
+links. If enough updates are performed on the lattice it  will
+converge to some configuration. Set ot 1000 by default.</p></li>
+<li><p><strong>Mlink</strong> (<em>int</em>) – The number of times each link is updated per lattice update. A
+link is updated by creating a random SU(2) matrix near the
+identity, then calculating the action of the new matrix. If the
+action is decreased or by some random probability the new
+matrix will be assigned to the link, otherwise the link does
+not change. This process is repeated Mlink times. Set to 10 by
+default</p></li>
+<li><p><strong>Msep</strong> (<em>int</em>) – The separation of measurements. While the lattice is being
+updated M times, a measurement of the average value of the
+plaquettes in the lattice will be taken every Msep updates.
+Each time a measurement is taken, the lattice will also be
+written out to a pickled file.
+(E.g. if Msep = 10, measurements will be taken every 10
+updates). Set to 10 by default</p></li>
+<li><p><strong>Mtherm</strong> (<em>int</em>) – The “thermalization” of the lattice. Indicates the number of
+lattice updates that need to be performed before any
+measurements of the average value of the plaquettes in the
+lattice. Set to 100 by default.</p></li>
+<li><p><strong>bRange</strong> (<em>float</em>) – The difference between the greatest and smallest value of beta
+that will be used to generate a lattice. A bRange of 0 means
+only one value of beta will be used to make a lattice. Set to
+0.0 by default.</p></li>
+<li><p><strong>bI</strong> (<em>float</em>) – If it is desired to generate a set of lattices using a range of
+betas, bI is how much beta will increment between values of
+beta. Set to 0.1 by default</p></li>
+<li><p><strong>hotStart</strong> (<em>bool</em>) – Setting this to True will initialize the fields of the lattice
+with a hot start (randomly generated values) rather than the
+default cold start (SU(2) matrices set to the identity). Set to
+False by default.</p></li>
+<li><p><strong>makePlot</strong> (<em>bool</em>) – When True, plots of the plaquette vs. updates will be
+generated. No plots generated when makePlot is set to False.
+Set to True by default.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<div class="toctree-wrapper compound">
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">SU(2) LQCD</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Hannaford.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

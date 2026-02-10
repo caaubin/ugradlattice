@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Thermal Generator runs (large, regenerable)
+thermal_generator_runs/
+**/thermal_generator_runs/
+
+# Checkpoints
+**/checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
