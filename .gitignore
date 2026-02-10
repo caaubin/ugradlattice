@@ -20,9 +20,9 @@ _build/
 **/docs/_sources/
 **/docs/*.html
 
-# Propagator batch results (regenerable)
-results_spectrum_*/
-**/results_spectrum_*/
+# Propagator batch results (large logs/intermediate data)
+**/results_spectrum_*/logs/
+**/results_spectrum_*/data/
 
 # OS
 .DS_Store
