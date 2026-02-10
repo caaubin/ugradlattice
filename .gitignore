@@ -20,9 +20,10 @@ _build/
 **/docs/_sources/
 **/docs/*.html
 
-# Propagator batch results (large logs/intermediate data)
-**/results_spectrum_*/logs/
-**/results_spectrum_*/data/
+# Propagator batch results (keep correlators, ignore logs/text summaries)
+**/batch_results/**/logs/
+**/batch_results/**/data/
+**/batch_results/**/plots/
 
 # OS
 .DS_Store

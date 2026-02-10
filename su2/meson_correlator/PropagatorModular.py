@@ -138,10 +138,11 @@ def setup_output_directories(output_prefix, run_type="single"):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     if run_type == "single":
-        output_dir = f"{output_prefix}_{timestamp}"
+        run_name = f"{output_prefix}_{timestamp}"
     else:
-        output_dir = f"{output_prefix}_{run_type}_{timestamp}"
+        run_name = f"{output_prefix}_{run_type}_{timestamp}"
 
+    output_dir = os.path.join("batch_results", run_name)
     os.makedirs(output_dir, exist_ok=True)
 
     # Create subdirectories
