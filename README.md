@@ -38,13 +38,18 @@ Start with **Notebook 00** and work through them in order.
 | 02 | Lattice Navigation | Coordinates, periodic boundaries, neighbor tables |
 | 03 | Gauge Fields and Plaquettes | Links, Wilson loops, gauge action |
 | 04 | Monte Carlo and Thermalization | Metropolis algorithm, plaquette vs beta |
-| 05 | Wilson-Dirac Operator | Gamma matrices, Clifford algebra, sparsity |
-| 06 | Quark Propagators | Point sources, Dirac inversion |
-| 07 | Meson Correlators and Masses | Pion/sigma/rho operators, GMOR relation |
-| 08 | Analysis of Existing Data | Ensemble averaging, jackknife errors |
+| 05 | Autocorrelation and Error Analysis | Integrated autocorrelation time, binning |
+| 06 | Wilson-Dirac Operator | Gamma matrices, Clifford algebra, sparsity |
+| 07 | Fermion Doubling and the Wilson Term | Naive doublers, dispersion relation, Wilson fix |
+| 08 | Quark Propagators | Point sources, Dirac inversion |
+| 09 | Meson Correlators and Masses | Pion/sigma/rho operators, effective masses |
+| 10 | Chiral Physics and the GMOR Relation | Chiral symmetry, mass renormalization, GMOR |
+| 11 | Analysis of Existing Data | Ensemble averaging, jackknife errors |
+| 12 | SU(N) Generalization | Extending from SU(2) to SU(N) |
+| 13 | Wilson Loops and Confinement | Static potential, string tension |
 
 All demo calculations use a **4x4x4x4 lattice** and run in seconds.
-Notebook 08 analyzes correlator data produced by the batch processing script.
+Notebook 11 analyzes correlator data produced by the batch processing script.
 
 ## Repository Structure
 

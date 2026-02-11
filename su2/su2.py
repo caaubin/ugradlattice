@@ -757,17 +757,17 @@ def staple(U, U0i, mups, mdns, mu, nu, signnu):
 # OBSERVABLE CALCULATIONS
 # ============================================================================
 
-def calcPlaq(U,La,mups):
+def calcPlaq(U,La_or_V,mups):
 	"""Calculate average plaquette over entire lattice
-	
+
 	Computes ⟨P⟩ = (1/6V) Σ_{x,μ<ν} Re Tr(P_μν(x))/2
 	where the sum is over all plaquettes on the lattice.
-	
+
 	This is the primary observable for:
 	- Monitoring thermalization
 	- Measuring the gauge action ⟨S⟩ = β(1 - ⟨P⟩)
 	- Extracting the lattice spacing via asymptotic scaling
-	
+
 	The approach to the continuum limit is monitored by how close
 	⟨P⟩ approaches 1 as β → ∞.
 
@@ -775,8 +775,9 @@ def calcPlaq(U,La,mups):
 	----------
 	U : array_like
 		Full gauge field configuration
-	La : array_like
-		Lattice dimensions [Lx, Ly, Lz, Lt]
+	La_or_V : array_like or int
+		Lattice dimensions [Lx, Ly, Lz, Lt], or total volume V (scalar).
+		If a scalar V is passed, the function loops over all V sites directly.
 	mups : array_like
 		Forward neighbor table
 
@@ -784,42 +785,30 @@ def calcPlaq(U,La,mups):
 	-------
 	numpy.float64
 		Average plaquette value (between 0 and 1)
-		
+
 	Physics Note
 	------------
 	In weak coupling: ⟨P⟩ ≈ 1 - g²/4 + O(g⁴)
 	In strong coupling: ⟨P⟩ ∼ 1/g² (confinement regime)
 	"""
-	plaquettes = []
+	# Support both calling conventions:
+	#   calcPlaq(U, La, mups)  -- La is array of lattice dimensions
+	#   calcPlaq(U, V, mups)   -- V is scalar volume (legacy interface)
+	if np.isscalar(La_or_V):
+		V = int(La_or_V)
+	else:
+		V = vol(La_or_V)
+
+	plaquettes = np.zeros(6*V)
 	j = 0
-	V = vol(La)
-	pp = np.array([0,0,0,0],dtype=int)
-	
-	# Loop over all plaquettes in all 6 planes (μ < ν)
-	for mu in range(4):
-		for nu in range(mu+1,4):
-			# Fix the plane, now loop over all positions
-			Lmu = La[mu]
-			Lnu = La[nu]
-			dirs = [0,1,2,3]
-			dirs.remove(mu)
-			dirs.remove(nu)
-			rho = dirs[0]    # Perpendicular directions
-			sigma = dirs[1]
-			
-			# Loop over all positions (excluding boundaries for open BC)
-			for xmu in range(La[mu]-1):
-				for xnu in range(La[nu]-1):
-					for xrho in range(La[rho]):
-						for xsigma in range(La[sigma]):
-							pp[mu] = xmu
-							pp[nu] = xnu
-							pp[rho] = xrho
-							pp[sigma] = xsigma
-							i = p2i(pp,La)
-							# Factor of 0.5 for normalization
-							plaquettes.append(0.5*plaq(U,i,mups,mu,nu))
-	
+
+	# Loop over all sites and all 6 plaquette orientations (μ < ν)
+	for i in range(V):
+		for mu in range(4):
+			for nu in range(mu+1,4):
+				plaquettes[j] = 0.5*plaq(U,i,mups,mu,nu)
+				j += 1
+
 	avgPlaquettes = np.mean(plaquettes)
 	return avgPlaquettes
 
@@ -985,6 +974,28 @@ def showU(U,mu,i):
 	"""
 	u = np.array([[U[1][i,mu,0]+U[1][i,mu,3]*1j,    U[1][i,mu,2] + U[1][i,mu,1]*1j],
 		         [-U[1][i,mu,2]+U[1][i,mu,1]*1j,    U[1][i,mu,0] - U[1][i,mu,3]*1j]])
+	return u
+
+
+
+def showU(U):
+	"""Convert gauge link to 2×2 complex matrix form
+	
+	Transforms from real representation [a₀,a₁,a₂,a₃] to
+	standard SU(2) matrix form for visualization.
+	
+	Parameters
+	----------
+	U : array_like
+		Single configuration
+
+	Returns
+	-------
+	numpy.ndarray
+		2×2 complex matrix representation
+	"""
+	u = np.array([[U[0]+U[3]*1j,    U[2] + U[1]*1j],
+		         [-U[2]+U[1]*1j,    U[0] - U[3]*1j]])
 	return u
 
 
