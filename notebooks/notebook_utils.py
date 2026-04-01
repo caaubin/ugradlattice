@@ -116,6 +116,8 @@ def quick_metropolis(La, beta, n_sweeps, start="cold", seed=None):
 
     plaquettes = np.zeros(n_sweeps)
 
+    report_every = max(1, n_sweeps // 10)
+
     for m in range(n_sweeps):
         for i in range(V):
             for mu in D:
@@ -128,6 +130,8 @@ def quick_metropolis(La, beta, n_sweeps, start="cold", seed=None):
                         U[i][mu] = U0n
                         U0 = U0n
         plaquettes[m] = su2.calcPlaq(U, La, mups)
+        if m == 0 or (m + 1) % report_every == 0:
+            print(f"  Sweep {m+1}/{n_sweeps}: P = {plaquettes[m]:.6f}")
 
     return plaquettes, U
 
