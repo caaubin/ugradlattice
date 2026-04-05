@@ -114,121 +114,68 @@ def get_rho_operator(polarization='average', verbose=False):
 
 def calculate_rho_correlator(propagators, lattice_dims, polarization='average', n_colors=2, verbose=False):
     """
-    Calculate rho correlator C_ρ(t) = Tr[γᵢ S(0,t)]
-    
-    Constructs the rho vector meson correlation function from quark propagators.
-    The correlator measures ⟨ρᵢ(t)ρ†ᵢ(0)⟩ and exhibits exponential decay:
-    
-    C_ρ(t) ~ A exp(-M_ρ t) + excited states
-    
-    Vector correlators typically have poorer signal-to-noise than pseudoscalar
-    due to the more complex Dirac structure and smaller overlap with ground state.
-    
+    Calculate rho correlator using proper Wick contraction.
+
+    The connected rho two-point correlator (Γ = γ_i) is:
+        C_ρ(t) = Σ_x̄ Re{ Tr[ γ_i·S(x̄,t;0) · γ_i · γ₅·S†(x̄,t;0)·γ₅ ] }
+
+    For the averaged rho, the correlator is the mean over
+    the three spatial polarizations (γ₁, γ₂, γ₃).
+
     Args:
         propagators (list): Quark propagators for all color-spin combinations
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
-        n_colors (int): Number of colors for SU(N) (default: 2)
         polarization (str): Rho polarization ('x', 'y', 'z', 'average')
+        n_colors (int): Number of colors for SU(N) (default: 2)
         verbose (bool): Enable detailed correlator diagnostics
-        
+
     Returns:
         numpy.ndarray: Rho correlator C_ρ(t) for all time slices
-        
-    Physics Notes:
-    - Vector correlators often noisier than pseudoscalar
-    - May require larger statistics for clean plateau
-    - Single configs can show large ρₓ ≠ ρᵧ ≠ ρᵧ splittings
-    - Ensemble averaging restores rotational symmetry
     """
     Lx, Ly, Lz, Lt = lattice_dims
-    rho_correlator = np.zeros(Lt, dtype=complex)
-    
-    # Get rho gamma matrix for specified polarization
+    Vs = Lx * Ly * Lz
+    V = Vs * Lt
+    dof = n_colors * 4
+
+    gamma5 = np.diag([-1.0, -1.0, 1.0, 1.0]).astype(complex)
+    G5_full = np.kron(gamma5, np.eye(n_colors, dtype=complex))
+
+    # Get the rho gamma matrix for the requested polarization
     rho_info = get_rho_operator(polarization, verbose=False)
     gamma_rho = rho_info['gamma']
-    
+    Gamma_full = np.kron(gamma_rho, np.eye(n_colors, dtype=complex))
+
     if verbose:
-        logging.info(f"  Computing rho correlator C_ρ(t) = Tr[{rho_info['operator']} S(0,t)]:")
-        logging.info(f"    Polarization: {polarization}")
-        logging.info(f"    Time extent: {Lt} slices")
-        logging.info(f"    Propagators: {len(propagators)} (should be 8)")
-        
-        if len(propagators) != 8:
-            logging.warning(f"    Expected 8 propagators, got {len(propagators)}")
-    
-    # Loop over all time slices
+        logging.info(f"  Computing rho correlator (Wick-contracted, pol={polarization}):")
+        logging.info(f"    Time extent: {Lt} slices, spatial volume: {Vs}")
+        logging.info(f"    Propagators: {len(propagators)} (should be {dof})")
+
+    rho_correlator = np.zeros(Lt)
+
     for t in range(Lt):
-        # Sink at spatial origin, time t
-        sink_point = np.array([0, 0, 0, t])
-        sink_site_idx = su2.p2i(sink_point, lattice_dims)
-        sink_base_idx = (n_colors * 4) * sink_site_idx
-        
-        correlator_sum = 0.0
-        
-        # Sum over colors 
-        for color in range(n_colors):
-            # Build 4×4 propagator matrix for this color  
-            S_matrix = np.zeros((4, 4), dtype=complex)
-            
-            # Fill matrix from propagator solutions
-            for source_spin in range(4):
-                source_prop_idx = 4 * color + source_spin
-                
-                if source_prop_idx < len(propagators):
-                    source_propagator = propagators[source_prop_idx]
-                    
-                    for sink_spin in range(4):
-                        sink_global_idx = sink_base_idx + n_colors * sink_spin + color
-                        
-                        if sink_global_idx < len(source_propagator):
-                            S_matrix[sink_spin, source_spin] = source_propagator[sink_global_idx]
-            
-            # Compute Tr[γᵢ S] for this color
-            trace_gamma_S = np.trace(gamma_rho @ S_matrix)
-            correlator_sum += trace_gamma_S
-            
-            if verbose and t < 3 and color == 0:
-                # Debug output for first few time slices
-                S_norm = np.linalg.norm(S_matrix)
-                logging.info(f"      t={t}, color={color}: |S|={S_norm:.2e}, Tr[γᵢS]={trace_gamma_S:.6e}")
-        
-        rho_correlator[t] = correlator_sum
-    
-    # Convert to real values (vector correlators should be real)
-    rho_correlator_real = np.real(rho_correlator)
-    
+        corr_t = 0.0
+        for site_idx in range(Vs * t, Vs * (t + 1)):
+            base = dof * site_idx
+
+            # Build full propagator matrix S_full[sink_dof, src_dof]
+            S_full = np.zeros((dof, dof), dtype=complex)
+            for c_src in range(n_colors):
+                for s_src in range(4):
+                    prop = propagators[4 * c_src + s_src]
+                    col = s_src * n_colors + c_src  # kron(spin, color) column
+                    S_full[:, col] = prop[base : base + dof]
+
+            # C_ρ contribution: Re{ Tr[Γ S Γ G5 S† G5] }
+            M = Gamma_full @ S_full @ Gamma_full @ G5_full @ S_full.conj().T @ G5_full
+            corr_t += np.real(np.trace(M))
+
+        rho_correlator[t] = corr_t
+
     if verbose:
-        # Correlator quality diagnostics
-        max_imaginary = np.max(np.abs(np.imag(rho_correlator)))
-        correlator_range = np.max(rho_correlator_real) - np.min(rho_correlator_real)
-        
         logging.info(f"  Rho correlator ({polarization}) computed:")
-        logging.info(f"    Real part range: [{np.min(rho_correlator_real):.2e}, {np.max(rho_correlator_real):.2e}]")
-        logging.info(f"    Maximum imaginary component: {max_imaginary:.2e}")
-        
-        if max_imaginary > 1e-10:
-            logging.warning(f"    Large imaginary part may indicate numerical issues")
-        
-        # Signal quality assessment
-        if len(rho_correlator_real) > 1 and np.abs(rho_correlator_real[0]) > 0:
-            signal_ratio = np.abs(rho_correlator_real[-1]) / np.abs(rho_correlator_real[0])
-            logging.info(f"    Signal decay: C(T-1)/C(0) = {signal_ratio:.2e}")
-            
-            if signal_ratio > 0.1:
-                logging.warning(f"    Poor signal-to-noise: correlator not well-decayed")
-            elif signal_ratio < 1e-10:
-                logging.warning(f"    Correlator may have decayed to numerical noise")
-        
-        # Check for problematic values
-        zero_count = np.sum(np.abs(rho_correlator_real) < 1e-15)
-        negative_count = np.sum(rho_correlator_real < 0)
-        
-        if zero_count > 0:
-            logging.warning(f"    {zero_count} time slices have near-zero values")
-        if negative_count > 0:
-            logging.info(f"    {negative_count} time slices have negative values (can be physical)")
-    
-    return rho_correlator_real
+        logging.info(f"    Range: [{np.min(rho_correlator):.2e}, {np.max(rho_correlator):.2e}]")
+
+    return rho_correlator
 
 def calculate_rho_mass(U, mass, lattice_dims, polarization='average', wilson_r=0.5, n_colors=2, solver='auto', verbose=False):
     """

@@ -84,20 +84,15 @@ def get_pion_operator(verbose=False):
 
 def calculate_pion_correlator(propagators, lattice_dims, n_colors=2, verbose=False):
     """
-    Calculate pion correlator C_π(t) = Tr[γ₅ S(0,t)]
+    Calculate pion correlator using proper Wick contraction with γ₅-hermiticity.
 
-    Constructs the pion two-point correlation function from quark propagators.
-    The correlator measures ⟨π(t)π†(0)⟩ and exhibits exponential decay:
+    The pion two-point correlator (connected part) is:
+        C_π(t) = Σ_x̄ Tr_cs[γ₅ S(x̄,t;0) γ₅ γ₅ S†(x̄,t;0) γ₅]
+               = Σ_x̄ Σ_{α,β,a,b} |S_{αa;βb}(x̄,t; 0)|²
 
-    C_π(t) ~ A exp(-M_π t) + excited states
-
-    The ground state mass M_π is extracted from the asymptotic behavior.
-
-    Correlator Construction:
-    1. Sum over all color indices (SU(2): colors 0,1; SU(3): colors 0,1,2)
-    2. Contract Dirac indices with γ₅ matrix
-    3. Trace over resulting 4×4 matrix at each time slice
-    4. Take real part (correlator should be real for γ₅)
+    The γ₅-hermiticity of the Wilson-Dirac operator (γ₅ D γ₅ = D†)
+    allows the two-propagator trace to be reduced to a sum of
+    absolute-squared propagator elements, which is always positive.
 
     Args:
         propagators (list): Quark propagators for all color-spin combinations
@@ -109,95 +104,50 @@ def calculate_pion_correlator(propagators, lattice_dims, n_colors=2, verbose=Fal
         numpy.ndarray: Pion correlator C_π(t) for all time slices
 
     Physics Expectations:
+    - Strictly positive (sum of |S|²)
     - Monotonic decay for large t (ground state dominance)
-    - Positive values (π† = π for γ₅ operator)
     - Exponential falloff with rate M_π
     """
     Lx, Ly, Lz, Lt = lattice_dims
-    pion_correlator = np.zeros(Lt, dtype=complex)
-    
-    # Get pion gamma matrix (γ₅)
-    pion_info = get_pion_operator(verbose=False)
-    gamma5 = pion_info['gamma']
-    
-    if verbose:
-        logging.info("  Computing pion correlator C_π(t) = Tr[γ₅ S(0,t)]:")
-        logging.info(f"    Time extent: {Lt} slices")
-        logging.info(f"    Propagators: {len(propagators)} (should be {n_colors*4} for full calculation)")
+    Vs = Lx * Ly * Lz  # spatial volume
+    V = Vs * Lt
+    dof = n_colors * 4  # degrees of freedom per site
 
-        # Validate propagator set
-        expected_propagators = n_colors * 4  # n_colors × 4 spins
+    if verbose:
+        logging.info("  Computing pion correlator C_π(t) = Σ_x̄ |S(x̄,t;0)|²:")
+        logging.info(f"    Time extent: {Lt} slices, spatial volume: {Vs}")
+        logging.info(f"    Propagators: {len(propagators)} (should be {dof})")
+
+        expected_propagators = dof
         if len(propagators) != expected_propagators:
             logging.warning(f"    Expected {expected_propagators} propagators, got {len(propagators)}")
-    
-    # Loop over all time slices
-    for t in range(Lt):
-        # Source at spatial origin, sink at time t
-        sink_point = np.array([0, 0, 0, t])
-        sink_site_idx = su2.p2i(sink_point, lattice_dims)
-        sink_base_idx = (n_colors * 4) * sink_site_idx
 
-        correlator_sum = 0.0
+    pion_correlator = np.zeros(Lt)
 
-        # Sum over all color indices
-        for color in range(n_colors):
-            # Construct 4×4 propagator matrix for this color
-            S_matrix = np.zeros((4, 4), dtype=complex)
-            
-            # Fill matrix elements from propagator solutions
-            for source_spin in range(4):
-                source_prop_idx = 4 * color + source_spin
-                
-                if source_prop_idx < len(propagators):
-                    source_propagator = propagators[source_prop_idx]
-                    
-                    for sink_spin in range(4):
-                        sink_global_idx = sink_base_idx + n_colors * sink_spin + color
-                        
-                        if sink_global_idx < len(source_propagator):
-                            S_matrix[sink_spin, source_spin] = source_propagator[sink_global_idx]
-            
-            # Compute Tr[γ₅ S] for this color
-            trace_gamma5_S = np.trace(gamma5 @ S_matrix)
-            correlator_sum += trace_gamma5_S
-            
-            if verbose and t < 3 and color == 0:
-                # Debug output for first few time slices
-                S_norm = np.linalg.norm(S_matrix)
-                logging.info(f"      t={t}, color={color}: |S|={S_norm:.2e}, Tr[γ₅S]={trace_gamma5_S:.6e}")
-        
-        pion_correlator[t] = correlator_sum
-    
-    # Convert to real values (pion correlator should be real)
-    pion_correlator_real = np.real(pion_correlator)
-    
+    # Using γ₅-hermiticity, the pion correlator reduces to
+    # C_π(t) = Σ_{source props} Σ_{spatial sites at t} Σ_{sink dof} |S|²
+    # Sites at time t have linear indices [Vs*t, Vs*(t+1)) due to
+    # the row-major ordering x + Lx*y + Lx*Ly*z + Lx*Ly*Lz*t.
+    for prop in propagators:
+        # Reshape to (V, dof) so each row is one site's spin-color block
+        prop_block = prop.reshape(V, dof)
+        site_abs_sq = np.sum(np.abs(prop_block) ** 2, axis=1)  # |S|² per site
+        for t in range(Lt):
+            pion_correlator[t] += np.sum(site_abs_sq[Vs * t : Vs * (t + 1)])
+
     if verbose:
-        # Correlator quality diagnostics
-        max_imaginary = np.max(np.abs(np.imag(pion_correlator)))
-        correlator_range = np.max(pion_correlator_real) - np.min(pion_correlator_real)
-        
         logging.info(f"  Pion correlator computed:")
-        logging.info(f"    Real part range: [{np.min(pion_correlator_real):.2e}, {np.max(pion_correlator_real):.2e}]")
-        logging.info(f"    Maximum imaginary component: {max_imaginary:.2e}")
-        
-        if max_imaginary > 1e-10:
-            logging.warning(f"    Large imaginary part may indicate numerical issues")
-        
-        # Check for expected exponential behavior
-        if len(pion_correlator_real) > 1:
-            if pion_correlator_real[0] > 0 and pion_correlator_real[1] > 0:
-                ratio = pion_correlator_real[0] / pion_correlator_real[1]
-                if ratio > 1.0:
-                    logging.info(f"    Good: C(0)/C(1) = {ratio:.3f} > 1 (expected exponential decay)")
-                else:
-                    logging.warning(f"    Unusual: C(0)/C(1) = {ratio:.3f} ≤ 1 (non-monotonic)")
-            
-        # Check for zeros (problematic for mass extraction)
-        zero_count = np.sum(np.abs(pion_correlator_real) < 1e-15)
+        logging.info(f"    Range: [{np.min(pion_correlator):.2e}, {np.max(pion_correlator):.2e}]")
+
+        if pion_correlator[0] > 0 and Lt > 1 and pion_correlator[1] > 0:
+            ratio = pion_correlator[0] / pion_correlator[1]
+            logging.info(f"    C(0)/C(1) = {ratio:.3f} (>1 expected for exponential decay)")
+
+        zero_count = np.sum(pion_correlator < 1e-15)
         if zero_count > 0:
             logging.warning(f"    {zero_count} time slices have near-zero correlator values")
-    
-    return pion_correlator_real
+
+    return pion_correlator
 
 def calculate_pion_mass(U, mass, lattice_dims, wilson_r=0.5, n_colors=2, solver='auto', verbose=False):
     """

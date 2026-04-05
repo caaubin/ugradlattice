@@ -89,131 +89,68 @@ def get_sigma_operator(verbose=False):
 
 def calculate_sigma_correlator(propagators, lattice_dims, n_colors=2, verbose=False):
     """
-    Calculate sigma correlator C_σ(t) = Tr[I S(0,t)]
-    
-    Constructs the sigma scalar meson correlation function from quark propagators.
-    The correlator measures ⟨σ(t)σ†(0)⟩ and exhibits exponential decay:
-    
-    C_σ(t) ~ A exp(-M_σ t) + excited states
-    
-    Scalar correlators are notoriously difficult due to:
-    - Poor overlap with ground state (small A coefficient)
-    - Strong mixing with higher Fock states
-    - Sensitivity to quark-antiquark vs. tetraquark components
-    - Large statistical fluctuations
-    
+    Calculate sigma correlator using proper Wick contraction.
+
+    The connected sigma two-point correlator (Γ = I) is:
+        C_σ(t) = Σ_x̄ Re{ Tr[ I·S(x̄,t;0) · I · γ₅·S†(x̄,t;0)·γ₅ ] }
+               = Σ_x̄ Re{ Tr[ S · γ₅ · S† · γ₅ ] }
+
+    Unlike the pion, the γ₅ insertions do NOT cancel (Γ=I ≠ γ₅),
+    so the scalar correlator is not simply |S|².
+
     Args:
         propagators (list): Quark propagators for all color-spin combinations
         lattice_dims (list): [Lx, Ly, Lz, Lt] lattice dimensions
         n_colors (int): Number of colors for SU(N) (default: 2)
         verbose (bool): Enable detailed correlator diagnostics
-        
+
     Returns:
         numpy.ndarray: Sigma correlator C_σ(t) for all time slices
-        
-    Numerical Challenges:
-    - Scalar correlators often have poor signal-to-noise
-    - May require enhanced statistics or specialized techniques
-    - Disconnected diagrams important but computationally expensive
-    - Wilson fermions break chiral symmetry explicitly
     """
     Lx, Ly, Lz, Lt = lattice_dims
-    sigma_correlator = np.zeros(Lt, dtype=complex)
-    
-    # Get sigma operator (identity matrix)
-    sigma_info = get_sigma_operator(verbose=False)
-    identity_op = sigma_info['gamma']
-    
+    Vs = Lx * Ly * Lz
+    V = Vs * Lt
+    dof = n_colors * 4
+
+    gamma5 = np.diag([-1.0, -1.0, 1.0, 1.0]).astype(complex)
+    # Full gamma matrices in the kron(spin, color) basis
+    Gamma_full = np.eye(dof, dtype=complex)  # Γ = I for sigma
+    G5_full = np.kron(gamma5, np.eye(n_colors, dtype=complex))
+
     if verbose:
-        logging.info(f"  Computing sigma correlator C_σ(t) = Tr[I S(0,t)]:")
-        logging.info(f"    Operator: scalar density ψ̄ψ")
-        logging.info(f"    Time extent: {Lt} slices")
-        logging.info(f"    Propagators: {len(propagators)} (should be 8)")
-        logging.info(f"    Note: Scalar correlators typically have poor signal-to-noise")
-        
-        if len(propagators) != 8:
-            logging.warning(f"    Expected 8 propagators, got {len(propagators)}")
-    
-    # Loop over all time slices
+        logging.info(f"  Computing sigma correlator (Wick-contracted):")
+        logging.info(f"    Time extent: {Lt} slices, spatial volume: {Vs}")
+        logging.info(f"    Propagators: {len(propagators)} (should be {dof})")
+
+    sigma_correlator = np.zeros(Lt)
+
     for t in range(Lt):
-        # Sink at spatial origin, time t
-        sink_point = np.array([0, 0, 0, t])
-        sink_site_idx = su2.p2i(sink_point, lattice_dims)
-        sink_base_idx = (n_colors * 4) * sink_site_idx
-        
-        correlator_sum = 0.0
-        
-        # Sum over colors 
-        for color in range(n_colors):
-            # Build 4×4 propagator matrix for this color
-            S_matrix = np.zeros((4, 4), dtype=complex)
-            
-            # Fill matrix from propagator solutions
-            for source_spin in range(4):
-                source_prop_idx = 4 * color + source_spin
-                
-                if source_prop_idx < len(propagators):
-                    source_propagator = propagators[source_prop_idx]
-                    
-                    for sink_spin in range(4):
-                        sink_global_idx = sink_base_idx + n_colors * sink_spin + color
-                        
-                        if sink_global_idx < len(source_propagator):
-                            S_matrix[sink_spin, source_spin] = source_propagator[sink_global_idx]
-            
-            # Compute Tr[I S] = Tr[S] for this color
-            trace_S = np.trace(S_matrix)
-            correlator_sum += trace_S
-            
-            if verbose and t < 3 and color == 0:
-                # Debug output for first few time slices
-                S_norm = np.linalg.norm(S_matrix)
-                logging.info(f"      t={t}, color={color}: |S|={S_norm:.2e}, Tr[S]={trace_S:.6e}")
-        
-        sigma_correlator[t] = correlator_sum
-    
-    # Convert to real values (sigma correlator should be real)
-    sigma_correlator_real = np.real(sigma_correlator)
-    
+        corr_t = 0.0
+        for site_idx in range(Vs * t, Vs * (t + 1)):
+            base = dof * site_idx
+
+            # Build full propagator matrix S_full[sink_dof, src_dof]
+            S_full = np.zeros((dof, dof), dtype=complex)
+            for c_src in range(n_colors):
+                for s_src in range(4):
+                    prop = propagators[4 * c_src + s_src]
+                    col = s_src * n_colors + c_src  # kron(spin, color) column
+                    S_full[:, col] = prop[base : base + dof]
+
+            # C_σ contribution: Re{ Tr[Γ S Γ G5 S† G5] } with Γ = I
+            M = S_full @ G5_full @ S_full.conj().T @ G5_full
+            corr_t += np.real(np.trace(M))
+
+        sigma_correlator[t] = corr_t
+
     if verbose:
-        # Correlator quality diagnostics
-        max_imaginary = np.max(np.abs(np.imag(sigma_correlator)))
-        correlator_range = np.max(sigma_correlator_real) - np.min(sigma_correlator_real)
-        
         logging.info(f"  Sigma correlator computed:")
-        logging.info(f"    Real part range: [{np.min(sigma_correlator_real):.2e}, {np.max(sigma_correlator_real):.2e}]")
-        logging.info(f"    Maximum imaginary component: {max_imaginary:.2e}")
-        
-        if max_imaginary > 1e-10:
-            logging.warning(f"    Large imaginary part may indicate numerical issues")
-        
-        # Signal-to-noise assessment
-        if len(sigma_correlator_real) > 1 and np.abs(sigma_correlator_real[0]) > 0:
-            signal_ratio = np.abs(sigma_correlator_real[-1]) / np.abs(sigma_correlator_real[0])
-            logging.info(f"    Signal decay: C(T-1)/C(0) = {signal_ratio:.2e}")
-            
-            if signal_ratio > 0.1:
-                logging.warning(f"    Poor signal-to-noise: correlator not well-decayed")
-                logging.info(f"      Scalar correlators often require larger time extent or statistics")
-            elif signal_ratio < 1e-12:
-                logging.warning(f"    Correlator may have decayed to numerical noise")
-        
-        # Check for problematic values
-        zero_count = np.sum(np.abs(sigma_correlator_real) < 1e-15)
-        negative_count = np.sum(sigma_correlator_real < 0)
-        
-        if zero_count > 0:
-            logging.warning(f"    {zero_count} time slices have near-zero values")
+        logging.info(f"    Range: [{np.min(sigma_correlator):.2e}, {np.max(sigma_correlator):.2e}]")
+        negative_count = np.sum(sigma_correlator < 0)
         if negative_count > 0:
-            logging.info(f"    {negative_count} time slices have negative values")
-            logging.info(f"      Negative scalar correlator values can occur due to quantum fluctuations")
-        
-        # Sigma-specific warnings
-        if np.std(sigma_correlator_real) / np.mean(np.abs(sigma_correlator_real)) > 2.0:
-            logging.warning(f"    Very noisy correlator - typical for scalar channel")
-            logging.info(f"      Consider: longer time evolution, smeared sources, variational methods")
-    
-    return sigma_correlator_real
+            logging.info(f"    {negative_count} negative time slices (can occur for scalar channel)")
+
+    return sigma_correlator
 
 def calculate_sigma_mass(U, mass, lattice_dims, wilson_r=0.5, n_colors=2, solver='auto', verbose=False):
     """

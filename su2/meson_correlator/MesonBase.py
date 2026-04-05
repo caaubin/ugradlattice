@@ -520,9 +520,10 @@ def calculate_effective_mass(correlator, verbose=False):
     if len(correlator) < 2:
         return np.array([]), np.array([])
 
-    # Clip very small values to avoid log(0)
-    # Note: Removed np.abs() to preserve sign - correlators should be positive after indexing fix
-    correlator = np.maximum(correlator, 1e-15)
+    # Use absolute value for effective mass extraction — correlators for
+    # non-pseudoscalar channels (sigma, rho) can have negative values.
+    correlator = np.abs(correlator)
+    correlator = np.maximum(correlator, 1e-30)
     
     if verbose:
         logging.info(f"  Computing effective mass from {len(correlator)} time slices")
@@ -538,9 +539,9 @@ def calculate_effective_mass(correlator, verbose=False):
     # Effective mass from ratio method
     mass_eff = np.log(ratios)
     
-    # Simple error estimate based on statistical fluctuations
-    # In practice, this would come from ensemble averaging
-    mass_err = 0.1 * np.abs(mass_eff)
+    # Simple error estimate — 20% of the mass or a floor of 0.01.
+    # Real ensemble analyses replace this with jackknife/bootstrap errors.
+    mass_err = np.maximum(0.2 * np.abs(mass_eff), 0.01)
     
     # Quality check: mark unphysical values as invalid
     valid_mask = (mass_eff > 0) & (mass_eff < 10) & np.isfinite(mass_eff)
@@ -587,14 +588,16 @@ def fit_plateau(mass_eff, mass_err, t_min=2, t_max=None, verbose=False):
         - χ²/dof << 1: Overestimated errors or over-fitting
     """
     if len(mass_eff) == 0:
-        return 0.5, 0.1, 0.0, (0, 0)
-    
+        if verbose:
+            logging.warning("    Empty effective mass array — cannot extract mass")
+        return np.nan, np.nan, 0.0, (0, 0)
+
     # Find valid (non-NaN) points
     valid_mask = ~np.isnan(mass_eff) & ~np.isnan(mass_err) & (mass_err > 0)
     if not np.any(valid_mask):
         if verbose:
             logging.warning("    No valid points for plateau fitting")
-        return 0.5, 0.1, 0.0, (0, 0)
+        return np.nan, np.nan, 0.0, (0, 0)
     
     valid_mass = mass_eff[valid_mask]
     valid_err = mass_err[valid_mask] 
@@ -652,7 +655,7 @@ def fit_plateau(mass_eff, mass_err, t_min=2, t_max=None, verbose=False):
             chi_squared = 0.0
             
     else:
-        plateau_mass, plateau_err, chi_squared = 0.5, 0.1, 0.0
+        plateau_mass, plateau_err, chi_squared = np.nan, np.nan, 0.0
         
     if verbose:
         logging.info(f"    Plateau results:")
