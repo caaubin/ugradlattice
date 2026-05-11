@@ -45,8 +45,8 @@ Start with **Notebook 00** and work through them in order.
 | 09 | Meson Correlators and Masses | Pion/sigma/rho operators, effective masses |
 | 10 | Chiral Physics and the GMOR Relation | Chiral symmetry, mass renormalization, GMOR |
 | 11 | Analysis of Existing Data | Ensemble averaging, jackknife errors |
-| 12 | SU(N) Generalization | Extending from SU(2) to SU(N) |
-| 13 | Wilson Loops and Confinement | Static potential, string tension |
+| 12 | Wilson Loops and Confinement | Static potential, string tension |
+| 13 | SU(N) Generalization | Extending from SU(2) to SU(N) |
 
 All demo calculations use a **4x4x4x4 lattice** and run in seconds.
 Notebook 11 analyzes correlator data produced by the batch processing script.

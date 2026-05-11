@@ -425,7 +425,8 @@ def get_meson_gamma_matrix(channel, verbose=False):
     gamma5[3,3] = 1
     gamma_matrices['gamma5'] = gamma5
     
-    # Channel definitions
+    # Channel definitions — gamma indices match lattice directions [x,y,z,t]=[0,1,2,3],
+    # so spatial polarizations use gamma0 (x), gamma1 (y), gamma2 (z).
     channels = {
         'pion': {
             'gamma': gamma5, 
@@ -440,23 +441,23 @@ def get_meson_gamma_matrix(channel, verbose=False):
             'description': 'Scalar'
         },
         'rho_x': {
-            'gamma': gamma_matrices['gamma1'], 
-            'JPC': '1--', 
+            'gamma': gamma_matrices['gamma0'],
+            'JPC': '1--',
             'name': 'Rho (x)'
         },
         'rho_y': {
-            'gamma': gamma_matrices['gamma2'], 
-            'JPC': '1--', 
+            'gamma': gamma_matrices['gamma1'],
+            'JPC': '1--',
             'name': 'Rho (y)'
         },
         'rho_z': {
-            'gamma': gamma_matrices['gamma3'], 
-            'JPC': '1--', 
+            'gamma': gamma_matrices['gamma2'],
+            'JPC': '1--',
             'name': 'Rho (z)'
         },
         'rho_t': {
-            'gamma': gamma_matrices['gamma0'], 
-            'JPC': '1--', 
+            'gamma': gamma_matrices['gamma3'],
+            'JPC': '1--',
             'name': 'Rho (t)'
         }
     }

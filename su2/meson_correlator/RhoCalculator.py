@@ -49,11 +49,12 @@ def get_rho_operator(polarization='average', verbose=False):
     """
     Return rho meson operator for specified polarization
     
-    The rho meson operators are:
-    - ρₓ(x) = ψ̄(x)γ₁ψ(x)  (x-polarization)
-    - ρᵧ(x) = ψ̄(x)γ₂ψ(x)  (y-polarization)  
-    - ρᵧ(x) = ψ̄(x)γ₃ψ(x)  (z-polarization)
-    - ρ_avg = (ρₓ + ρᵧ + ρᵧ)/3  (rotationally averaged)
+    The rho meson operators use spatial gamma matrices matching the
+    lattice direction convention [x,y,z,t] = [0,1,2,3]:
+    - ρₓ(x) = ψ̄(x)γ₀ψ(x)  (x-polarization)
+    - ρᵧ(x) = ψ̄(x)γ₁ψ(x)  (y-polarization)
+    - ρ_z(x) = ψ̄(x)γ₂ψ(x)  (z-polarization)
+    - ρ_avg = (ρₓ + ρᵧ + ρ_z)/3  (rotationally averaged)
     
     All have quantum numbers J^PC = 1^(--) (vector meson).
     
@@ -71,24 +72,27 @@ def get_rho_operator(polarization='average', verbose=False):
     - Experimental: M_ρ ≈ 775 MeV, Γ_ρ ≈ 149 MeV (broad resonance)
     """
     gamma_matrices = get_gamma_matrices()
-    
+
+    # Lattice directions are [x,y,z,t] = [0,1,2,3], and gamma[mu] in the
+    # Dirac operator hops along direction mu. So the three spatial gammas
+    # are gamma0 (x), gamma1 (y), gamma2 (z); gamma3 is temporal.
     if polarization.lower() == 'x':
-        gamma_op = gamma_matrices['gamma1']
+        gamma_op = gamma_matrices['gamma0']
         name = 'Rho (x-polarization)'
-        operator = 'γ₁'
+        operator = 'γ₀'
     elif polarization.lower() == 'y':
-        gamma_op = gamma_matrices['gamma2'] 
+        gamma_op = gamma_matrices['gamma1']
         name = 'Rho (y-polarization)'
-        operator = 'γ₂'
+        operator = 'γ₁'
     elif polarization.lower() == 'z':
-        gamma_op = gamma_matrices['gamma3']
-        name = 'Rho (z-polarization)' 
-        operator = 'γ₃'
+        gamma_op = gamma_matrices['gamma2']
+        name = 'Rho (z-polarization)'
+        operator = 'γ₂'
     elif polarization.lower() == 'average':
         # Rotationally averaged rho operator
-        gamma_op = (gamma_matrices['gamma1'] + gamma_matrices['gamma2'] + gamma_matrices['gamma3']) / 3.0
+        gamma_op = (gamma_matrices['gamma0'] + gamma_matrices['gamma1'] + gamma_matrices['gamma2']) / 3.0
         name = 'Rho (averaged)'
-        operator = '(γ₁ + γ₂ + γ₃)/3'
+        operator = '(γ₀ + γ₁ + γ₂)/3'
     else:
         raise ValueError(f"Unknown rho polarization: {polarization}")
     

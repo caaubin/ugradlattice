@@ -831,6 +831,12 @@ def get_meson_gamma_matrix(channel, verbose=False):
     gamma_matrices = get_gamma_matrices()
     gamma5 = gamma_matrices['gamma5']
 
+    # Convention: the Dirac operator in build_wilson_dirac_matrix uses
+    # gamma[mu] for lattice direction mu, with directions [x,y,z,t] = [0,1,2,3].
+    # So gamma0 hops in x, gamma1 in y, gamma2 in z, gamma3 in t.
+    # The rho spatial polarizations must use the three spatial gammas
+    # (gamma0, gamma1, gamma2) to match, NOT gamma1-gamma3 which would
+    # accidentally assign the temporal gamma to rho_z.
     channels = {
         'pion': {
             'gamma': gamma5,
@@ -845,22 +851,22 @@ def get_meson_gamma_matrix(channel, verbose=False):
             'description': 'Scalar'
         },
         'rho_x': {
-            'gamma': gamma_matrices['gamma1'],
+            'gamma': gamma_matrices['gamma0'],
             'JPC': '1--',
             'name': 'Rho (x)'
         },
         'rho_y': {
-            'gamma': gamma_matrices['gamma2'],
+            'gamma': gamma_matrices['gamma1'],
             'JPC': '1--',
             'name': 'Rho (y)'
         },
         'rho_z': {
-            'gamma': gamma_matrices['gamma3'],
+            'gamma': gamma_matrices['gamma2'],
             'JPC': '1--',
             'name': 'Rho (z)'
         },
         'rho_t': {
-            'gamma': gamma_matrices['gamma0'],
+            'gamma': gamma_matrices['gamma3'],
             'JPC': '1--',
             'name': 'Rho (t)'
         }
